@@ -32,43 +32,40 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "C99.h"
-#include "Arguments.h"
-#include "Display.h"
+#ifndef MKFAT_C99_H
+#define MKFAT_C99_H
 
-int main( int argc, char * argv[] )
-{
-    int                 status;
-    MutableArgumentsRef args;
-    
-    args = ArgumentsCreate( argc, argv );
-    
-    if( ArgumentsGetShowHelp( args ) )
-    {
-        DisplayHelp();
-        
-        goto success;
-    }
-    
-    if( ArgumentsValidate( args ) == false )
-    {
-        goto failure;
-    }
-    
-    ArgumentsDelete( args );
-        
-    success:
-        
-        status = EXIT_SUCCESS;
-        
-        goto cleanup;
-        
-    failure:
-        
-        status = EXIT_FAILURE;
-    
-    cleanup:
-    
-    return status;
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <assert.h>
+#include <complex.h>
+#include <ctype.h>
+#include <errno.h>
+#include <fenv.h>
+#include <float.h>
+#include <inttypes.h>
+#include <iso646.h>
+#include <limits.h>
+#include <locale.h>
+#include <math.h>
+#include <setjmp.h>
+#include <signal.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <tgmath.h>
+#include <time.h>
+#include <wchar.h>
+#include <wctype.h>
+
+#ifdef __cplusplus
 }
+#endif
 
+#endif /* MKFAT_C99_H */

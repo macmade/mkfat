@@ -32,43 +32,33 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "C99.h"
-#include "Arguments.h"
-#include "Display.h"
+#ifndef MKFAT___PRIVATE_ARGUMENTS_H
+#define MKFAT___PRIVATE_ARGUMENTS_H
 
-int main( int argc, char * argv[] )
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "../Arguments.h"
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
+
+struct __Arguments
 {
-    int                 status;
-    MutableArgumentsRef args;
-    
-    args = ArgumentsCreate( argc, argv );
-    
-    if( ArgumentsGetShowHelp( args ) )
-    {
-        DisplayHelp();
-        
-        goto success;
-    }
-    
-    if( ArgumentsValidate( args ) == false )
-    {
-        goto failure;
-    }
-    
-    ArgumentsDelete( args );
-        
-    success:
-        
-        status = EXIT_SUCCESS;
-        
-        goto cleanup;
-        
-    failure:
-        
-        status = EXIT_FAILURE;
-    
-    cleanup:
-    
-    return status;
-}
+    bool showHelp;
+};
 
+extern ArgumentsRef __ArgumentsCurrent;
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* MKFAT___PRIVATE_ARGUMENTS_H */

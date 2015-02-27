@@ -32,43 +32,12 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "C99.h"
 #include "Arguments.h"
-#include "Display.h"
+#include "__private/Arguments.h"
 
-int main( int argc, char * argv[] )
+ArgumentsRef __ArgumentsCurrent;
+
+ArgumentsRef ArgumentsGetCurrent( void )
 {
-    int                 status;
-    MutableArgumentsRef args;
-    
-    args = ArgumentsCreate( argc, argv );
-    
-    if( ArgumentsGetShowHelp( args ) )
-    {
-        DisplayHelp();
-        
-        goto success;
-    }
-    
-    if( ArgumentsValidate( args ) == false )
-    {
-        goto failure;
-    }
-    
-    ArgumentsDelete( args );
-        
-    success:
-        
-        status = EXIT_SUCCESS;
-        
-        goto cleanup;
-        
-    failure:
-        
-        status = EXIT_FAILURE;
-    
-    cleanup:
-    
-    return status;
+    return __ArgumentsCurrent;
 }
-

@@ -32,43 +32,37 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "C99.h"
 #include "Arguments.h"
+#include "__private/Arguments.h"
 #include "Display.h"
 
-int main( int argc, char * argv[] )
+MutableArgumentsRef ArgumentsCreate( int argc, char ** argv )
 {
-    int                 status;
-    MutableArgumentsRef args;
+    struct __Arguments * o;
+    int                  i;
     
-    args = ArgumentsCreate( argc, argv );
+    o = calloc( sizeof( struct __Arguments ), 1 );
     
-    if( ArgumentsGetShowHelp( args ) )
+    if( o == NULL )
     {
-        DisplayHelp();
+        DisplayError( "Out of memory" );
         
-        goto success;
+        return NULL;
     }
     
-    if( ArgumentsValidate( args ) == false )
+    for( i = 1; i < argc; i++ )
     {
-        goto failure;
+        if( strcmp( argv[ i ], "-h" ) == 0 )
+        {
+            o->showHelp = true;
+        }
+        else if( strcmp( argv[ i ], "--help" ) == 0 )
+        {
+            o->showHelp = true;
+        }
     }
     
-    ArgumentsDelete( args );
-        
-    success:
-        
-        status = EXIT_SUCCESS;
-        
-        goto cleanup;
-        
-    failure:
-        
-        status = EXIT_FAILURE;
+    __ArgumentsCurrent = o;
     
-    cleanup:
-    
-    return status;
+    return o;
 }
-

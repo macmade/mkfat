@@ -32,43 +32,22 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
+#ifndef MKFAT_MBR_H
+#define MKFAT_MBR_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "C99.h"
-#include "Arguments.h"
-#include "Display.h"
 
-int main( int argc, char * argv[] )
-{
-    int                 status;
-    MutableArgumentsRef args;
-    
-    args = ArgumentsCreate( argc, argv );
-    
-    if( ArgumentsGetShowHelp( args ) )
-    {
-        DisplayHelp();
-        
-        goto success;
-    }
-    
-    if( ArgumentsValidate( args ) == false )
-    {
-        goto failure;
-    }
-    
-    ArgumentsDelete( args );
-        
-    success:
-        
-        status = EXIT_SUCCESS;
-        
-        goto cleanup;
-        
-    failure:
-        
-        status = EXIT_FAILURE;
-    
-    cleanup:
-    
-    return status;
+typedef const struct __MBR * MBRRef;
+typedef       struct __MBR * MutableMBRRef;
+
+void MBRDelete( MutableMBRRef o );
+
+#ifdef __cplusplus
 }
+#endif
 
+#endif /* MKFAT_MBR_H */

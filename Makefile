@@ -29,7 +29,7 @@
 
 #-------------------------------------------------------------------------------
 # @author           Jean-David Gadina
-# @copyright        (c) 2010-2015, Jean-David Gadina - www.xs-labs.com
+# @copyright        (c) 2015, Jean-David Gadina - www.xs-labs.com
 #-------------------------------------------------------------------------------
 
 include make/Config.mk
@@ -38,7 +38,15 @@ include make/Targets.mk
 TOOL    := mkfat
 PROMPT  := MKFAT
 DEPS    := 
-FILES   := $(call MAKE_FUNC_C_FILES,$(DIR_SRC))
+FILES   := $(call MAKE_FUNC_C_FILES,$(DIR_SRC))                 \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)Arguments/)       \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)Directory/)       \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)DirectoryEntry/)  \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)Disk/)            \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)Display/)         \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)FAT/)             \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)IO/)              \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)MBR/)
 
 all: build
 	

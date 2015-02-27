@@ -32,43 +32,26 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "C99.h"
-#include "Arguments.h"
 #include "Display.h"
 
-int main( int argc, char * argv[] )
+void DisplayError( const char * format, ... )
 {
-    int                 status;
-    MutableArgumentsRef args;
+    va_list ap;
     
-    args = ArgumentsCreate( argc, argv );
+    va_start( ap, format );
     
-    if( ArgumentsGetShowHelp( args ) )
-    {
-        DisplayHelp();
-        
-        goto success;
-    }
+    #ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wformat-nonliteral"
+    #endif
     
-    if( ArgumentsValidate( args ) == false )
-    {
-        goto failure;
-    }
+    fprintf( stderr, "Error: " );
+    vfprintf( stderr, format, ap );
+    fprintf( stderr, "\n" );
     
-    ArgumentsDelete( args );
-        
-    success:
-        
-        status = EXIT_SUCCESS;
-        
-        goto cleanup;
-        
-    failure:
-        
-        status = EXIT_FAILURE;
+    #ifdef __clang__
+    #pragma clang diagnostic pop
+    #endif
     
-    cleanup:
-    
-    return status;
+    va_end( ap );
 }
-

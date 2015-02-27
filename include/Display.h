@@ -32,43 +32,20 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
+#ifndef MKFAT_DISPLAY_H
+#define MKFAT_DISPLAY_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "C99.h"
-#include "Arguments.h"
-#include "Display.h"
 
-int main( int argc, char * argv[] )
-{
-    int                 status;
-    MutableArgumentsRef args;
-    
-    args = ArgumentsCreate( argc, argv );
-    
-    if( ArgumentsGetShowHelp( args ) )
-    {
-        DisplayHelp();
-        
-        goto success;
-    }
-    
-    if( ArgumentsValidate( args ) == false )
-    {
-        goto failure;
-    }
-    
-    ArgumentsDelete( args );
-        
-    success:
-        
-        status = EXIT_SUCCESS;
-        
-        goto cleanup;
-        
-    failure:
-        
-        status = EXIT_FAILURE;
-    
-    cleanup:
-    
-    return status;
+void DisplayHelp( void );
+void DisplayError( const char * format, ... );
+
+#ifdef __cplusplus
 }
+#endif
 
+#endif /* MKFAT_DISPLAY_H */
