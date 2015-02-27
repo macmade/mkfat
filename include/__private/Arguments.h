@@ -48,7 +48,26 @@ extern "C" {
 
 struct __Arguments
 {
-    bool showHelp;
+    size_t        sectorSize;
+    size_t        sectorsPerCluster;
+    size_t        reservedSectorCount;
+    size_t        numberOfFATs;
+    size_t        numberOfRootDirectoryEntries;
+    size_t        totalSectors;
+    size_t        sectorsPerFAT;
+    size_t        sectorsPerTrack;
+    size_t        numberOfSides;
+    unsigned int  mediumIdentifier;
+    unsigned int  extendedBootRecordSignature;
+    unsigned int  volumeIDNumber;
+    const char  * volumeLabel;
+    const char  * fileSystemType;
+    const char  * creatingSystemIdentifier;
+    bool          bootable;
+    bool          showHelp;
+    const char  * diskPath;
+    const char ** inputFiles;
+    size_t        inputFileCount;
 };
 
 extern ArgumentsRef __ArgumentsCurrent;

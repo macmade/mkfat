@@ -32,47 +32,15 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT_ARGUMENTS_H
-#define MKFAT_ARGUMENTS_H
+#include "Arguments.h"
+#include "__private/Arguments.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "C99.h"
-
-typedef const struct __Arguments * ArgumentsRef;
-typedef       struct __Arguments * MutableArgumentsRef;
-
-ArgumentsRef        ArgumentsGetCurrent( void );
-MutableArgumentsRef ArgumentsCreate( int argc, char ** argv );
-void                ArgumentsDelete( MutableArgumentsRef o );
-
-bool ArgumentsValidate( ArgumentsRef o );
-
-size_t        ArgumentsGetSectorSize( ArgumentsRef o );
-size_t        ArgumentsGetSectorsPerCluster( ArgumentsRef o );
-size_t        ArgumentsGetReservedSectorCount( ArgumentsRef o );
-size_t        ArgumentsGetNumberOfFATs( ArgumentsRef o );
-size_t        ArgumentsGetNumberOfRootDirectoryEntries( ArgumentsRef o );
-size_t        ArgumentsGetTotalSectors( ArgumentsRef o );
-size_t        ArgumentsGetSectorsPerFAT( ArgumentsRef o );
-size_t        ArgumentsGetSectorsPerTrack( ArgumentsRef o );
-size_t        ArgumentsGetNumberOfSides( ArgumentsRef o );
-unsigned int  ArgumentsGetMediumIdentifier( ArgumentsRef o );
-unsigned int  ArgumentsGetExtendedBootRecordSignature( ArgumentsRef o );
-unsigned int  ArgumentsGetVolumeIDNumber( ArgumentsRef o );
-const char  * ArgumentsGetVolumeLabel( ArgumentsRef o );
-const char  * ArgumentsGetFileSystemType( ArgumentsRef o );
-const char  * ArgumentsGetCreatingSystemIdentifier( ArgumentsRef o );
-bool          ArgumentsGetBootable( ArgumentsRef o );
-bool          ArgumentsGetShowHelp( ArgumentsRef o );
-const char  * ArgumentsGetDiskPath( ArgumentsRef o );
-const char  * ArgumentsGetInputFileAtIndex( ArgumentsRef o, size_t index );
-size_t        ArgumentsGetInputFileCount( ArgumentsRef o );
-
-#ifdef __cplusplus
+size_t ArgumentsGetNumberOfFATs( ArgumentsRef o )
+{
+    if( o == NULL )
+    {
+        return 0;
+    }
+    
+    return o->numberOfFATs;
 }
-#endif
-
-#endif /* MKFAT_ARGUMENTS_H */
