@@ -45,7 +45,7 @@ MutableArgumentsRef ArgumentsCreate( int argc, char ** argv )
     
     if( o == NULL )
     {
-        DisplayError( "Out of memory" );
+        DisplayPrintError( "Out of memory" );
         
         return NULL;
     }

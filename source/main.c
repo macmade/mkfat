@@ -43,9 +43,14 @@ int main( int argc, char * argv[] )
     
     args = ArgumentsCreate( argc, argv );
     
+    if( ArgumentsGetVerbose( args ) )
+    {
+        DisplayPrintArguments( args );
+    }
+    
     if( ArgumentsGetShowHelp( args ) )
     {
-        DisplayHelp();
+        DisplayPrintHelp();
         
         goto success;
     }

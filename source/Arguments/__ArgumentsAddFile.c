@@ -58,7 +58,7 @@ bool __ArgumentsAddFile( struct __Arguments * o, const char * file )
     
     if( o->inputFiles == NULL )
     {
-        DisplayError( "Out of memory" );
+        DisplayPrintError( "Out of memory" );
         
         return false;
     }
