@@ -32,69 +32,25 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "Arguments.h"
-#include "__private/Arguments.h"
-#include "Display.h"
 #include "IO.h"
 
-bool ArgumentsValidate( ArgumentsRef o )
+bool IOFileExists( const char * path )
 {
-    size_t i;
+    FILE * fp;
     
-    if( o == NULL )
+    if( path == NULL || strlen( path ) == 0 )
     {
         return false;
     }
     
-    if( o->showHelp == true )
-    {
-        return true;
-    }
+    fp = fopen( path, "rb" );
     
-    if( o->diskPath == NULL )
+    if( fp == NULL )
     {
-        DisplayPrintError( "No disk path given: specify one with -o" );
-        
         return false;
     }
     
-    for( i = 0; i < ArgumentsGetInputFileCount( o ); i++ )
-    {
-        if( IOFileExists( ArgumentsGetInputFileAtIndex( o, i ) ) == false )
-        {
-            DisplayPrintError( "Input file does not exist: %s", ArgumentsGetInputFileAtIndex( o, i ) );
-            
-            return false;
-        }
-    }
-    
-    if( o->volumeLabel != NULL && strlen( o->volumeLabel ) > 11 )
-    {
-        DisplayPrintError( "Volume label is too long (max 11 characters): %s", o->volumeLabel );
-        
-        return false;
-    }
-    
-    if( o->creatingSystemIdentifier != NULL && strlen( o->creatingSystemIdentifier ) > 8 )
-    {
-        DisplayPrintError( "Creating system identifier is too long (max 8 characters): %s", o->creatingSystemIdentifier );
-        
-        return false;
-    }
-    
-    if
-    (
-           o->fileSystemType != NULL
-        && strcmp( o->fileSystemType, "fat12" )
-        && strcmp( o->fileSystemType, "fat16" )
-        && strcmp( o->fileSystemType, "FAT12" )
-        && strcmp( o->fileSystemType, "FAT16" )
-    )
-    {
-        DisplayPrintError( "Unknown file system type: %s", o->fileSystemType );
-        
-        return false;
-    }
+    fclose( fp );
     
     return true;
 }

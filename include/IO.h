@@ -41,7 +41,7 @@ extern "C" {
 
 #include "C99.h"
 
-
+bool IOFileExists( const char * path );
 
 #ifdef __cplusplus
 }

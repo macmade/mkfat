@@ -45,7 +45,7 @@ void DisplayPrintError( const char * format, ... )
     #pragma clang diagnostic ignored "-Wformat-nonliteral"
     #endif
     
-    fprintf( stderr, "Error: " );
+    fprintf( stderr, "Error - " );
     vfprintf( stderr, format, ap );
     fprintf( stderr, "\n" );
     
