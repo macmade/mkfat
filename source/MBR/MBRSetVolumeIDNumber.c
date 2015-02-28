@@ -42,5 +42,5 @@ void MBRSetVolumeIDNumber( MBRRef o, uint32_t value )
         return;
     }
     
-    ( void )value;
+    o->mbr->volumeIDNumber = value;
 }

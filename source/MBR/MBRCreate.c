@@ -34,8 +34,46 @@
 
 #include "MBR.h"
 #include "__private/MBR.h"
+#include "Display.h"
 
 MutableMBRRef MBRCreate( void )
 {
-    return NULL;
+    struct __MBR     * o;
+    struct __MBRData * mbr;
+    char             * creatingSystemIdentifier;
+    char             * volumeLabel;
+    char             * fileSystemType;
+    
+    o                        = calloc( sizeof( struct __MBR                  ),     1 );
+    mbr                      = calloc( sizeof( struct __MBRData              ),     1 );
+    creatingSystemIdentifier = calloc( sizeof( mbr->creatingSystemIdentifier ) + 1, 1 );
+    volumeLabel              = calloc( sizeof( mbr->volumeLabel              ) + 1, 1 );
+    fileSystemType           = calloc( sizeof( mbr->fileSystemType           ) + 1, 1 );
+    
+    if
+    (
+           o                        == NULL
+        || mbr                      == NULL
+        || creatingSystemIdentifier == NULL
+        || volumeLabel              == NULL
+        || fileSystemType           == NULL
+    )
+    {
+        free( o );
+        free( mbr );
+        free( creatingSystemIdentifier );
+        free( volumeLabel );
+        free( fileSystemType );
+        
+        DisplayPrintError( "Out of memory" );
+        
+        return NULL;
+    }
+    
+    o->mbr                      = mbr;
+    o->creatingSystemIdentifier = creatingSystemIdentifier;
+    o->volumeLabel              = volumeLabel;
+    o->fileSystemType           = fileSystemType;
+    
+    return o;
 }

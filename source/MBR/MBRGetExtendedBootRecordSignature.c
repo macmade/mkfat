@@ -42,5 +42,5 @@ uint8_t MBRGetExtendedBootRecordSignature( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->mbr->extendedBootRecordSignature;
 }

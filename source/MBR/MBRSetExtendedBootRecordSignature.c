@@ -42,5 +42,5 @@ void MBRSetExtendedBootRecordSignature( MBRRef o, uint8_t value )
         return;
     }
     
-    ( void )value;
+    o->mbr->extendedBootRecordSignature = value;
 }

@@ -42,5 +42,5 @@ uint32_t MBRGetVolumeIDNumber( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->mbr->volumeIDNumber;
 }

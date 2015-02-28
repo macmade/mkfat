@@ -42,5 +42,5 @@ void MBRSetSectorsPerCluster( MBRRef o, uint8_t value )
         return;
     }
     
-    ( void )value;
+    o->mbr->sectorsPerCluster = value;
 }

@@ -42,5 +42,5 @@ const char * MBRGetFileSystemType( MBRRef o )
         return NULL;
     }
     
-    return NULL;
+    return o->fileSystemType;
 }

@@ -42,5 +42,5 @@ const char * MBRGetVolumeLabel( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->volumeLabel;
 }

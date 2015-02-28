@@ -42,5 +42,5 @@ void MBRSetBootable( MBRRef o, bool value )
         return;
     }
     
-    ( void )value;
+    o->mbr->bootSignature = ( value ) ? 0xAA55 : 0x0000;
 }

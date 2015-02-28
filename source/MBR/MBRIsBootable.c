@@ -42,5 +42,5 @@ bool MBRIsBootable( MBRRef o )
         return false;
     }
     
-    return false;
+    return o->mbr->bootSignature == 0xAA55;
 }

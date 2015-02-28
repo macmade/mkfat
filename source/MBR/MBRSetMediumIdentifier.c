@@ -42,5 +42,5 @@ void MBRSetMediumIdentifier( MBRRef o, uint8_t value )
         return;
     }
     
-    ( void )value;
+    o->mbr->mediumIdentifier = value;
 }

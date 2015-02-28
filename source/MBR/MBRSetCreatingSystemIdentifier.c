@@ -37,10 +37,12 @@
 
 void MBRSetCreatingSystemIdentifier( MBRRef o, const char * value )
 {
-    if( o == NULL )
+    if( o == NULL || value == NULL )
     {
         return;
     }
     
-    ( void )value;
+    memset( o->mbr->creatingSystemIdentifier, 0, sizeof( o->mbr->creatingSystemIdentifier ) );
+    strncpy( ( char * )( o->mbr->creatingSystemIdentifier ), value, sizeof( o->mbr->creatingSystemIdentifier ) );
+    memcpy( o->creatingSystemIdentifier, o->mbr->creatingSystemIdentifier, sizeof( o->mbr->creatingSystemIdentifier ) );
 }

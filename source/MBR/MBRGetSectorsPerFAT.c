@@ -42,5 +42,5 @@ uint16_t MBRGetSectorsPerFAT( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->mbr->sectorsPerFAT;
 }

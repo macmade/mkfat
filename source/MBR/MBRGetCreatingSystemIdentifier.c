@@ -42,5 +42,5 @@ const char * MBRGetCreatingSystemIdentifier( MBRRef o )
         return NULL;
     }
     
-    return NULL;
+    return o->creatingSystemIdentifier;
 }

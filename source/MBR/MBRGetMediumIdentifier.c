@@ -42,5 +42,5 @@ uint8_t MBRGetMediumIdentifier( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->mbr->mediumIdentifier;
 }

@@ -42,5 +42,9 @@ void MBRDelete( MutableMBRRef o )
         return;
     }
     
+    free( o->mbr );
+    free( o->creatingSystemIdentifier );
+    free( o->volumeLabel );
+    free( o->fileSystemType );
     free( o );
 }

@@ -42,5 +42,5 @@ void MBRSetNumberOfSides( MBRRef o, uint16_t value )
         return;
     }
     
-    ( void )value;
+    o->mbr->numberOfSides = value;
 }

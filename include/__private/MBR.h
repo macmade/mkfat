@@ -46,9 +46,40 @@ extern "C" {
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
+#pragma pack( 1 )
+struct __MBRData
+{
+    uint8_t     jmp[ 3 ];
+    uint8_t     creatingSystemIdentifier[ 8 ];
+    uint16_t    sectorSize;
+    uint8_t     sectorsPerCluster;
+    uint16_t    reservedSectorCount;
+    uint8_t     numberOfFATs;
+    uint16_t    numberOfRootDirectoryEntries;
+    uint16_t    totalSectors;
+    uint8_t     mediumIdentifier;
+    uint16_t    sectorsPerFAT;
+    uint16_t    sectorsPerTrack;
+    uint16_t    numberOfSides;
+    uint32_t    reserved_0;
+    uint32_t    longTotalSectors;
+    uint8_t     reserved_1;
+    uint8_t     reserved_2;
+    uint8_t     extendedBootRecordSignature;
+    uint32_t    volumeIDNumber;
+    uint8_t     volumeLabel[ 11 ];
+    uint8_t     fileSystemType[ 8 ];
+    uint8_t     bootCode[ 448 ] ;
+    uint16_t    bootSignature;
+};
+#pragma options align=reset
+
 struct __MBR
 {
-    int __xxx;
+    struct __MBRData * mbr;
+    char             * creatingSystemIdentifier;
+    char             * volumeLabel;
+    char             * fileSystemType;
 };
 
 #ifdef __clang__

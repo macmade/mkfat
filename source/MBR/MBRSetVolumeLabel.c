@@ -37,10 +37,12 @@
 
 void MBRSetVolumeLabel( MBRRef o, const char * value )
 {
-    if( o == NULL )
+    if( o == NULL || value == NULL )
     {
         return;
     }
     
-    ( void )value;
+    memset( o->mbr->volumeLabel, 0, sizeof( o->mbr->volumeLabel ) );
+    strncpy( ( char * )( o->mbr->volumeLabel ), value, sizeof( o->mbr->volumeLabel ) );
+    memcpy( o->volumeLabel, o->mbr->volumeLabel, sizeof( o->mbr->volumeLabel ) );
 }

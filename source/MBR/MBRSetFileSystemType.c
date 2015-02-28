@@ -37,10 +37,12 @@
 
 void MBRSetFileSystemType( MBRRef o, const char * value )
 {
-    if( o == NULL )
+    if( o == NULL || value == NULL )
     {
         return;
     }
     
-    ( void )value;
+    memset( o->mbr->fileSystemType, 0, sizeof( o->mbr->fileSystemType ) );
+    strncpy( ( char * )( o->mbr->fileSystemType ), value, sizeof( o->mbr->fileSystemType ) );
+    memcpy( o->fileSystemType, o->mbr->fileSystemType, sizeof( o->mbr->fileSystemType ) );
 }

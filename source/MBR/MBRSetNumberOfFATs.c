@@ -42,5 +42,5 @@ void MBRSetNumberOfFATs( MBRRef o, uint8_t value )
         return;
     }
     
-    ( void )value;
+    o->mbr->numberOfFATs = value;
 }

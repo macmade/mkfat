@@ -42,5 +42,5 @@ uint16_t MBRGetSectorsPerTrack( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->mbr->sectorsPerTrack;
 }

@@ -42,5 +42,5 @@ uint16_t MBRGetNumberOfRootDirectoryEntries( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->mbr->numberOfRootDirectoryEntries;
 }

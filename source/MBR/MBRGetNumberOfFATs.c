@@ -42,5 +42,5 @@ uint8_t MBRGetNumberOfFATs( MBRRef o )
         return 0;
     }
     
-    return 0;
+    return o->mbr->numberOfFATs;
 }
