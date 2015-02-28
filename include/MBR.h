@@ -44,7 +44,42 @@ extern "C" {
 typedef const struct __MBR * MBRRef;
 typedef       struct __MBR * MutableMBRRef;
 
-void MBRDelete( MutableMBRRef o );
+MutableMBRRef   MBRCreate( void );
+void            MBRDelete( MutableMBRRef o );
+
+uint16_t      MBRGetSectorSize( MBRRef o );
+uint8_t       MBRGetSectorsPerCluster( MBRRef o );
+uint16_t      MBRGetReservedSectorCount( MBRRef o );
+uint8_t       MBRGetNumberOfFATs( MBRRef o );
+uint16_t      MBRGetNumberOfRootDirectoryEntries( MBRRef o );
+uint16_t      MBRGetTotalSectors( MBRRef o );
+uint8_t       MBRGetMediumIdentifier( MBRRef o );
+uint16_t      MBRGetSectorsPerFAT( MBRRef o );
+uint16_t      MBRGetSectorsPerTrack( MBRRef o );
+uint16_t      MBRGetNumberOfSides( MBRRef o );
+uint8_t       MBRGetExtendedBootRecordSignature( MBRRef o );
+uint32_t      MBRGetVolumeIDNumber( MBRRef o );
+const char  * MBRGetVolumeLabel( MBRRef o );
+const char  * MBRGetFileSystemType( MBRRef o );
+const char  * MBRGetCreatingSystemIdentifier( MBRRef o );
+bool          MBRIsBootable( MBRRef o );
+
+void MBRSetSectorSize( MBRRef o, uint16_t value );
+void MBRSetSectorsPerCluster( MBRRef o, uint8_t value );
+void MBRSetReservedSectorCount( MBRRef o, uint16_t value );
+void MBRSetNumberOfFATs( MBRRef o, uint8_t value );
+void MBRSetNumberOfRootDirectoryEntries( MBRRef o, uint16_t value );
+void MBRSetTotalSectors( MBRRef o, uint16_t value );
+void MBRSetMediumIdentifier( MBRRef o, uint8_t value );
+void MBRSetSectorsPerFAT( MBRRef o, uint16_t value );
+void MBRSetSectorsPerTrack( MBRRef o, uint16_t value );
+void MBRSetNumberOfSides( MBRRef o, uint16_t value );
+void MBRSetExtendedBootRecordSignature( MBRRef o, uint8_t value );
+void MBRSetVolumeIDNumber( MBRRef o, uint32_t value );
+void MBRSetVolumeLabel( MBRRef o, const char * value );
+void MBRSetFileSystemType( MBRRef o, const char * value );
+void MBRSetCreatingSystemIdentifier( MBRRef o, const char * value );
+void MBRSetBootable( MBRRef o, bool value );
 
 #ifdef __cplusplus
 }
