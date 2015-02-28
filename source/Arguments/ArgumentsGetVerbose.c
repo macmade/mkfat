@@ -32,56 +32,15 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT___PRIVATE_ARGUMENTS_H
-#define MKFAT___PRIVATE_ARGUMENTS_H
+#include "Arguments.h"
+#include "__private/Arguments.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "../Arguments.h"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#endif
-
-struct __Arguments
+bool ArgumentsGetVerbose( ArgumentsRef o )
 {
-    size_t        sectorSize;
-    size_t        sectorsPerCluster;
-    size_t        reservedSectorCount;
-    size_t        numberOfFATs;
-    size_t        numberOfRootDirectoryEntries;
-    size_t        totalSectors;
-    size_t        sectorsPerFAT;
-    size_t        sectorsPerTrack;
-    size_t        numberOfSides;
-    unsigned int  mediumIdentifier;
-    unsigned int  extendedBootRecordSignature;
-    unsigned int  volumeIDNumber;
-    const char  * volumeLabel;
-    const char  * fileSystemType;
-    const char  * creatingSystemIdentifier;
-    bool          bootable;
-    bool          showHelp;
-    bool          verbose;
-    const char  * diskPath;
-    const char ** inputFiles;
-    size_t        inputFileCount;
-    size_t        inputFileBufferSize;
-};
-
-extern ArgumentsRef __ArgumentsCurrent;
-
-bool __ArgumentsAddFile( struct __Arguments * o, const char * file );
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-
-#ifdef __cplusplus
+    if( o == NULL )
+    {
+        return false;
+    }
+    
+    return o->verbose;
 }
-#endif
-
-#endif /* MKFAT___PRIVATE_ARGUMENTS_H */

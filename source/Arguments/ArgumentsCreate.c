@@ -52,13 +52,95 @@ MutableArgumentsRef ArgumentsCreate( int argc, char ** argv )
     
     for( i = 1; i < argc; i++ )
     {
-        if( strcmp( argv[ i ], "-h" ) == 0 )
+        if( strcmp( argv[ i ], "--ss" ) == 0 && i + 1 < argc )
         {
-            o->showHelp = true;
+            o->sectorSize = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--sc" ) == 0 && i + 1 < argc )
+        {
+            o->sectorsPerCluster = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--rsc" ) == 0 && i + 1 < argc )
+        {
+            o->reservedSectorCount = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--fn" ) == 0 && i + 1 < argc )
+        {
+            o->numberOfFATs = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--rde" ) == 0 && i + 1 < argc )
+        {
+            o->numberOfRootDirectoryEntries = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--ts" ) == 0 && i + 1 < argc )
+        {
+            o->totalSectors = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--sf" ) == 0 && i + 1 < argc )
+        {
+            o->sectorsPerFAT = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--spt" ) == 0 && i + 1 < argc )
+        {
+            o->sectorsPerTrack = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--nos" ) == 0 && i + 1 < argc )
+        {
+            o->numberOfSides = ( size_t )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--medium" ) == 0 && i + 1 < argc )
+        {
+            o->mediumIdentifier = ( unsigned int )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--signature" ) == 0 && i + 1 < argc )
+        {
+            o->extendedBootRecordSignature = ( unsigned int )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--id" ) == 0 && i + 1 < argc )
+        {
+            o->volumeIDNumber = ( unsigned int )strtoul( argv[ ++i ], NULL, 0 );
+        }
+        else if( strcmp( argv[ i ], "--label" ) == 0 && i + 1 < argc )
+        {
+            o->volumeLabel = argv[ ++i ];
+        }
+        else if( strcmp( argv[ i ], "--format" ) == 0 && i + 1 < argc )
+        {
+            o->fileSystemType = argv[ ++i ];
+        }
+        else if( strcmp( argv[ i ], "--creator" ) == 0 && i + 1 < argc )
+        {
+            o->creatingSystemIdentifier = argv[ ++i ];
+        }
+        else if( strcmp( argv[ i ], "--bootable" ) == 0 )
+        {
+            o->bootable = true;
         }
         else if( strcmp( argv[ i ], "--help" ) == 0 )
         {
             o->showHelp = true;
+        }
+        else if( strcmp( argv[ i ], "--verbose" ) == 0 )
+        {
+            o->verbose = true;
+        }
+        else if( strcmp( argv[ i ], "-h" ) == 0 )
+        {
+            o->showHelp = true;
+        }
+        else if( strcmp( argv[ i ], "-v" ) == 0 )
+        {
+            o->verbose = true;
+        }
+        else if( strcmp( argv[ i ], "-o" ) == 0 && i + 1 < argc )
+        {
+            o->diskPath = argv[ ++i ];
+        }
+        else if( __ArgumentsAddFile( o, argv[ i ] ) == false )
+        {
+            free( o );
+            
+            return NULL;
         }
     }
     

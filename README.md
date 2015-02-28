@@ -16,7 +16,7 @@ Supported formats are FAT-12 and FAT-16.
 Usage
 -----
 
-    Usage: mkfat [OPTIONS] -o DISK FILES...
+    Usage: mkfat [OPTIONS] -o DISK [FILES...]
     
     Options:
     
@@ -35,8 +35,9 @@ Usage
         --label        string      Volume label (up to 11 characters)
         --format       string      File system type [FAT12/FAT16]
         --creator      string      Creating system identifier (up to 8 characters)
-        --bootable     string      Makes the disk image bootable [yes/no]
+        --bootable                 Makes the disk image bootable
         --help, -h                 Prints this help message
+        --verbose, -v              Verbose mode
 
 License
 -------

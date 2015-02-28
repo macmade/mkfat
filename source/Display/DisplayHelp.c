@@ -38,7 +38,7 @@ void DisplayHelp( void )
 {
     printf
     (
-        "Usage: mkfat [OPTIONS] -o DISK FILES...\n"
+        "Usage: mkfat [OPTIONS] -o DISK [FILES...]\n"
         "\n"
         "Options:\n"
         "\n"
@@ -57,7 +57,8 @@ void DisplayHelp( void )
         "    --label        string      Volume label (up to 11 characters)\n"
         "    --format       string      File system type [FAT12/FAT16]\n"
         "    --creator      string      Creating system identifier (up to 8 characters)\n"
-        "    --bootable     string      Makes the disk image bootable [yes/no]\n"
+        "    --bootable                 Makes the disk image bootable\n"
         "    --help, -h                 Prints this help message\n"
+        "    --verbose, -v              Verbose mode\n"
     );
 }

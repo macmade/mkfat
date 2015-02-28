@@ -67,6 +67,7 @@ const char  * ArgumentsGetFileSystemType( ArgumentsRef o );
 const char  * ArgumentsGetCreatingSystemIdentifier( ArgumentsRef o );
 bool          ArgumentsGetBootable( ArgumentsRef o );
 bool          ArgumentsGetShowHelp( ArgumentsRef o );
+bool          ArgumentsGetVerbose( ArgumentsRef o );
 const char  * ArgumentsGetDiskPath( ArgumentsRef o );
 const char  * ArgumentsGetInputFileAtIndex( ArgumentsRef o, size_t index );
 size_t        ArgumentsGetInputFileCount( ArgumentsRef o );
