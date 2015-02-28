@@ -32,26 +32,26 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT_DISPLAY_H
-#define MKFAT_DISPLAY_H
+#include "Display.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "C99.h"
-#include "Arguments.h"
-
-size_t  DisplayGetAvailableColumns( void );
-void    DisplayPrintHelp( void );
-void    DisplayPrintError( const char * format, ... );
-void    DisplayPrintHeader( const char * format, ... );
-void    DisplayPrintLine( void );
-void    DisplayPrintData( const void * data, size_t size );
-void    DisplayPrintArguments( ArgumentsRef args );
-
-#ifdef __cplusplus
+void DisplayPrintError( const char * format, ... )
+{
+    va_list ap;
+    
+    va_start( ap, format );
+    
+    #ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wformat-nonliteral"
+    #endif
+    
+    fprintf( stderr, "Error: " );
+    vfprintf( stderr, format, ap );
+    fprintf( stderr, "\n" );
+    
+    #ifdef __clang__
+    #pragma clang diagnostic pop
+    #endif
+    
+    va_end( ap );
 }
-#endif
-
-#endif /* MKFAT_DISPLAY_H */

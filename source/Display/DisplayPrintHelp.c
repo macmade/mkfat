@@ -32,26 +32,33 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT_DISPLAY_H
-#define MKFAT_DISPLAY_H
+#include "Display.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "C99.h"
-#include "Arguments.h"
-
-size_t  DisplayGetAvailableColumns( void );
-void    DisplayPrintHelp( void );
-void    DisplayPrintError( const char * format, ... );
-void    DisplayPrintHeader( const char * format, ... );
-void    DisplayPrintLine( void );
-void    DisplayPrintData( const void * data, size_t size );
-void    DisplayPrintArguments( ArgumentsRef args );
-
-#ifdef __cplusplus
+void DisplayPrintHelp( void )
+{
+    printf
+    (
+        "Usage: mkfat [OPTIONS] -o DISK [FILES...]\n"
+        "\n"
+        "Options:\n"
+        "\n"
+        "    --ss           uint        Sector size\n"
+        "    --sc           uint        Sectors per cluster\n"
+        "    --rsc          uint        Reserved sector count\n"
+        "    --fn           uint        Number of FATs\n"
+        "    --rde          uint        Number of root directory entries\n"
+        "    --ts           uint        Total sectors\n"
+        "    --sf           uint        Sectors per FAT\n"
+        "    --spt          uint        Sectors per track\n"
+        "    --nos          uint        Number of sides\n"
+        "    --medium       uint        Medium identifier\n"
+        "    --signature    uint        Extended boot record signature\n"
+        "    --id           uint        Volume ID number\n"
+        "    --label        string      Volume label (up to 11 characters)\n"
+        "    --format       string      File system type [FAT12/FAT16]\n"
+        "    --creator      string      Creating system identifier (up to 8 characters)\n"
+        "    --bootable                 Makes the disk image bootable\n"
+        "    --help, -h                 Prints this help message\n"
+        "    --verbose, -v              Verbose mode\n"
+    );
 }
-#endif
-
-#endif /* MKFAT_DISPLAY_H */

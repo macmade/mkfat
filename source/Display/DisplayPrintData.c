@@ -34,24 +34,64 @@
 
 #include "Display.h"
 
-void DisplayError( const char * format, ... )
+void DisplayPrintData( const void * data, size_t size )
 {
-    va_list ap;
+    uint8_t * p;
+    size_t    i;
+    size_t    n;
+    size_t    c;
     
-    va_start( ap, format );
+    if( data == NULL )
+    {
+        return;
+    }
     
-    #ifdef __clang__
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wformat-nonliteral"
-    #endif
+    c = DisplayGetAvailableColumns();
     
-    fprintf( stderr, "Error: " );
-    vfprintf( stderr, format, ap );
-    fprintf( stderr, "\n" );
+    if( c < 20 )
+    {
+        return;
+    }
     
-    #ifdef __clang__
-    #pragma clang diagnostic pop
-    #endif
+    n = ( c - 2 ) / 4;
+    p = ( uint8_t * )data;
     
-    va_end( ap );
+    while( size > n )
+    {
+        for( i = 0; i < n; i++ )
+        {
+            printf( "%02X ", p[ i ] );
+        }
+        
+        printf( "| " );
+        
+        for( i = 0; i < n; i++ )
+        {
+            printf( "%c", ( isgraph( p[ i ] ) ) ? p[ i ] : '.' );
+        }
+        
+        p    += n;
+        size -= n;
+        
+        printf( "\n" );
+    }
+    
+    for( i = 0; i < size; i++ )
+    {
+        printf( "%02X ", p[ i ] );
+    }
+    
+    for( i = 0; i < n - size; i++ )
+    {
+        printf( "   " );
+    }
+    
+    printf( "| " );
+    
+    for( i = 0; i < size; i++ )
+    {
+        printf( "%c", ( isgraph( p[ i ] ) ) ? p[ i ] : '.' );
+    }
+    
+    printf( "\n" );
 }

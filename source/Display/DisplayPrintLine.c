@@ -32,26 +32,25 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT_DISPLAY_H
-#define MKFAT_DISPLAY_H
+#include "Display.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "C99.h"
-#include "Arguments.h"
-
-size_t  DisplayGetAvailableColumns( void );
-void    DisplayPrintHelp( void );
-void    DisplayPrintError( const char * format, ... );
-void    DisplayPrintHeader( const char * format, ... );
-void    DisplayPrintLine( void );
-void    DisplayPrintData( const void * data, size_t size );
-void    DisplayPrintArguments( ArgumentsRef args );
-
-#ifdef __cplusplus
+void DisplayPrintLine( void )
+{
+    size_t c;
+    char * s;
+    
+    c = DisplayGetAvailableColumns();
+    s = malloc( c + 1 );
+    
+    if( s == NULL )
+    {
+        return;
+    }
+    
+    memset( s, '-', c );
+    
+    s[ c ] = 0;
+    
+    printf( "%s\n", s );
+    free( s );
 }
-#endif
-
-#endif /* MKFAT_DISPLAY_H */

@@ -34,31 +34,25 @@
 
 #include "Display.h"
 
-void DisplayHelp( void )
+void DisplayPrintHeader( const char * format, ... )
 {
-    printf
-    (
-        "Usage: mkfat [OPTIONS] -o DISK [FILES...]\n"
-        "\n"
-        "Options:\n"
-        "\n"
-        "    --ss           uint        Sector size\n"
-        "    --sc           uint        Sectors per cluster\n"
-        "    --rsc          uint        Reserved sector count\n"
-        "    --fn           uint        Number of FATs\n"
-        "    --rde          uint        Number of root directory entries\n"
-        "    --ts           uint        Total sectors\n"
-        "    --sf           uint        Sectors per FAT\n"
-        "    --spt          uint        Sectors per track\n"
-        "    --nos          uint        Number of sides\n"
-        "    --medium       uint        Medium identifier\n"
-        "    --signature    uint        Extended boot record signature\n"
-        "    --id           uint        Volume ID number\n"
-        "    --label        string      Volume label (up to 11 characters)\n"
-        "    --format       string      File system type [FAT12/FAT16]\n"
-        "    --creator      string      Creating system identifier (up to 8 characters)\n"
-        "    --bootable                 Makes the disk image bootable\n"
-        "    --help, -h                 Prints this help message\n"
-        "    --verbose, -v              Verbose mode\n"
-    );
+    va_list ap;
+    
+    DisplayPrintLine();
+    va_start( ap, format );
+    
+    #ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wformat-nonliteral"
+    #endif
+    
+    vprintf( format, ap );
+    
+    #ifdef __clang__
+    #pragma clang diagnostic pop
+    #endif
+    
+    va_end( ap );
+    printf( "\n" );
+    DisplayPrintLine();
 }
