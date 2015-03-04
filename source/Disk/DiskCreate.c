@@ -32,31 +32,41 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT___PRIVATE_DISK_H
-#define MKFAT___PRIVATE_DISK_H
+#include "Disk.h"
+#include "__private/Disk.h"
+#include "Display.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "../Disk.h"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#endif
-
-struct __Disk
+MutableDiskRef DiskCreate( DiskFormat format )
 {
-    MutableMBRRef mbr;
-};
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-
-#ifdef __cplusplus
+    struct __Disk * o;
+    MutableMBRRef   mbr;
+    
+    mbr = MBRCreate();
+    
+    if( mbr == NULL )
+    {
+        return NULL;
+    }
+    
+    if( format == DiskFormatFAT12 )
+    {
+        
+    }
+    else
+    {
+        
+    }
+    
+    o = calloc( sizeof( struct __Disk ), 1 );
+    
+    if( o == NULL )
+    {
+        DisplayPrintError( "Out of memory" );
+        
+        return NULL;
+    }
+    
+    o->mbr = mbr;
+    
+    return o;
 }
-#endif
-
-#endif /* MKFAT___PRIVATE_DISK_H */

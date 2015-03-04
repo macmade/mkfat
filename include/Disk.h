@@ -44,7 +44,22 @@ extern "C" {
 typedef const struct __Disk * DiskRef;
 typedef       struct __Disk * MutableDiskRef;
 
-void DiskDelete( MutableDiskRef o );
+#include "MBR.h"
+
+typedef enum
+{
+    DiskFormatFAT12 = 0x00,
+    DiskFormatFAT16 = 0x01
+}
+DiskFormat;
+
+MutableDiskRef  DiskCreate( DiskFormat format );
+void            DiskDelete( MutableDiskRef o );
+
+bool DiskAddFile( MutableDiskRef o, const char * file );
+bool DiskWrite( DiskRef o, const char * path );
+
+MutableMBRRef DiskGetMBR( DiskRef o );
 
 #ifdef __cplusplus
 }

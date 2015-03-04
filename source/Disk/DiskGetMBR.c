@@ -32,31 +32,15 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT___PRIVATE_DISK_H
-#define MKFAT___PRIVATE_DISK_H
+#include "Disk.h"
+#include "__private/Disk.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "../Disk.h"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#endif
-
-struct __Disk
+MutableMBRRef DiskGetMBR( DiskRef o )
 {
-    MutableMBRRef mbr;
-};
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-
-#ifdef __cplusplus
+    if( o == NULL )
+    {
+        return NULL;
+    }
+    
+    return o->mbr;
 }
-#endif
-
-#endif /* MKFAT___PRIVATE_DISK_H */

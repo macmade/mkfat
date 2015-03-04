@@ -42,5 +42,6 @@ void DiskDelete( MutableDiskRef o )
         return;
     }
     
+    MBRDelete( o->mbr );
     free( o );
 }

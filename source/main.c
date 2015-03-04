@@ -35,13 +35,18 @@
 #include "C99.h"
 #include "Arguments.h"
 #include "Display.h"
+#include "Disk.h"
 
 int main( int argc, char * argv[] )
 {
     int                 status;
     MutableArgumentsRef args;
+    MutableDiskRef      disk;
+    MutableMBRRef       mbr;
+    size_t              i;
     
     args = ArgumentsCreate( argc, argv );
+    disk = NULL;
     
     if( ArgumentsGetVerbose( args ) )
     {
@@ -60,7 +65,117 @@ int main( int argc, char * argv[] )
         goto failure;
     }
     
-    ArgumentsDelete( args );
+    if
+    (
+           strcmp( ArgumentsGetFileSystemType( args ), "FAT12" ) == 0
+        || strcmp( ArgumentsGetFileSystemType( args ), "fat12" ) == 0
+    )
+    {
+        disk = DiskCreate( DiskFormatFAT12 );
+    }
+    else
+    {
+        disk = DiskCreate( DiskFormatFAT16 );
+    }
+    
+    if( disk == NULL )
+    {
+        goto failure;
+    }
+    
+    mbr = DiskGetMBR( disk );
+    
+    if( ArgumentsGetSectorSize( args ) )
+    {
+        MBRSetSectorSize( mbr, ( uint16_t )ArgumentsGetSectorSize( args ) );
+    }
+    
+    if( ArgumentsGetSectorsPerCluster( args ) )
+    {
+        MBRSetSectorsPerCluster( mbr, ( uint8_t )ArgumentsGetSectorsPerCluster( args ) );
+    }
+    
+    if( ArgumentsGetReservedSectorCount( args ) )
+    {
+        MBRSetReservedSectorCount( mbr, ( uint16_t )ArgumentsGetReservedSectorCount( args ) );
+    }
+    
+    if( ArgumentsGetNumberOfFATs( args ) )
+    {
+        MBRSetNumberOfFATs( mbr, ( uint8_t )ArgumentsGetNumberOfFATs( args ) );
+    }
+    
+    if( ArgumentsGetNumberOfRootDirectoryEntries( args ) )
+    {
+        MBRSetNumberOfRootDirectoryEntries( mbr, ( uint16_t )ArgumentsGetNumberOfRootDirectoryEntries( args ) );
+    }
+    
+    if( ArgumentsGetTotalSectors( args ) )
+    {
+        MBRSetTotalSectors( mbr, ( uint16_t )ArgumentsGetTotalSectors( args ) );
+    }
+    
+    if( ArgumentsGetSectorsPerFAT( args ) )
+    {
+        MBRSetSectorsPerFAT( mbr, ( uint16_t )ArgumentsGetSectorsPerFAT( args ) );
+    }
+    
+    if( ArgumentsGetSectorsPerTrack( args ) )
+    {
+        MBRSetSectorsPerTrack( mbr, ( uint16_t )ArgumentsGetSectorsPerTrack( args ) );
+    }
+    
+    if( ArgumentsGetNumberOfSides( args ) )
+    {
+        MBRSetNumberOfSides( mbr, ( uint16_t )ArgumentsGetNumberOfSides( args ) );
+    }
+    
+    if( ArgumentsGetMediumIdentifier( args ) )
+    {
+        MBRSetMediumIdentifier( mbr, ( uint8_t )ArgumentsGetMediumIdentifier( args ) );
+    }
+    
+    if( ArgumentsGetExtendedBootRecordSignature( args ) )
+    {
+        MBRSetExtendedBootRecordSignature( mbr, ( uint8_t )ArgumentsGetExtendedBootRecordSignature( args ) );
+    }
+    
+    if( ArgumentsGetVolumeIDNumber( args ) )
+    {
+        MBRSetVolumeIDNumber( mbr, ( uint32_t )ArgumentsGetVolumeIDNumber( args ) );
+    }
+    
+    if( ArgumentsGetVolumeLabel( args ) )
+    {
+        MBRSetVolumeLabel( mbr, ArgumentsGetVolumeLabel( args ) );
+    }
+    
+    if( ArgumentsGetCreatingSystemIdentifier( args ) )
+    {
+        MBRSetCreatingSystemIdentifier( mbr, ArgumentsGetCreatingSystemIdentifier( args ) );
+    }
+    
+    if( ArgumentsGetBootable( args ) )
+    {
+        MBRSetBootable( mbr, true );
+    }
+    else
+    {
+        MBRSetBootable( mbr, false );
+    }
+    
+    for( i = 0; i < ArgumentsGetInputFileCount( args ); i++ )
+    {
+        if( DiskAddFile( disk, ArgumentsGetInputFileAtIndex( args, i ) ) == false )
+        {
+            goto failure;
+        }
+    }
+    
+    if( DiskWrite( disk, ArgumentsGetDiskPath( args ) ) == false )
+    {
+        goto failure;
+    }
         
     success:
         
@@ -73,6 +188,9 @@ int main( int argc, char * argv[] )
         status = EXIT_FAILURE;
     
     cleanup:
+        
+        DiskDelete( disk );
+        ArgumentsDelete( args );
     
     return status;
 }
