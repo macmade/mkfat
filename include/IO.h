@@ -41,7 +41,8 @@ extern "C" {
 
 #include "C99.h"
 
-bool IOFileExists( const char * path );
+bool    IOFileExists( const char * path );
+size_t  IOGetFileSize( const char * path );
 
 #ifdef __cplusplus
 }
