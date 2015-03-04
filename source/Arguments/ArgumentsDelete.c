@@ -47,5 +47,6 @@ void ArgumentsDelete( MutableArgumentsRef o )
         __ArgumentsCurrent = NULL;
     }
     
+    free( o->inputFiles );
     free( o );
 }
