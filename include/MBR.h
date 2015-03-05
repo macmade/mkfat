@@ -47,6 +47,8 @@ typedef       struct __MBR * MutableMBRRef;
 MutableMBRRef   MBRCreate( void );
 void            MBRDelete( MutableMBRRef o );
 
+bool MBRWrite( MBRRef o, FILE * fp );
+
 uint16_t      MBRGetSectorSize( MBRRef o );
 uint8_t       MBRGetSectorsPerCluster( MBRRef o );
 uint16_t      MBRGetReservedSectorCount( MBRRef o );

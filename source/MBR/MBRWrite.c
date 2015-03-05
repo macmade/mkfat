@@ -32,36 +32,23 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "Disk.h"
-#include "__private/Disk.h"
+#include "MBR.h"
+#include "__private/MBR.h"
 #include "Display.h"
 
-bool DiskWrite( DiskRef o, const char * path )
+bool MBRWrite( MBRRef o, FILE * fp )
 {
-    FILE * fp;
-    
-    if( o == NULL )
+    if( o == NULL || fp == NULL )
     {
         return false;
     }
     
-    fp = fopen( path, "wb" );
-    
-    if( fp == NULL )
+    if( fwrite( o->mbr, 1, sizeof( struct __MBRData ), fp ) != sizeof( struct __MBRData ) )
     {
-        DisplayPrintError( "Cannot open output file for writing: %s", path );
+        DisplayPrintError( "Cannot write MBR" );
         
         return false;
     }
-    
-    if( MBRWrite( o->mbr, fp ) == false )
-    {
-        fclose( fp );
-        
-        return false;
-    }
-    
-    fclose( fp );
     
     return true;
 }
