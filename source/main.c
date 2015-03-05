@@ -165,9 +165,9 @@ int main( int argc, char * argv[] )
         MBRSetBootable( mbr, false );
     }
     
-    if( ArgumentsGetInputFileCount( args ) )
+    if( ArgumentsGetVerbose( args ) && ArgumentsGetInputFileCount( args ) )
     {
-        DisplayPrintHeader( "Adding files:" );
+        DisplayPrintHeader( "Adding files to disk:" );
     }
     
     for( i = 0; i < ArgumentsGetInputFileCount( args ); i++ )

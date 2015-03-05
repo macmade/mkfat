@@ -34,89 +34,18 @@
 
 #include "Disk.h"
 #include "__private/Disk.h"
-#include "Display.h"
 
-char * __DiskCreateFilename( DiskRef o, const char * path )
+const char * DiskGetFilePathAtIndex( DiskRef o, size_t index )
 {
-    char * file;
-    char * ext;
-    char * name;
-    char * fullname;
-    size_t len;
-    
-    if( o == NULL || path == NULL || strlen( path ) == 0 )
+    if( o == NULL )
     {
         return NULL;
     }
     
-    name     = malloc( 12 );
-    fullname = malloc( strlen( path ) + 1 );
-    
-    if( name == NULL || fullname == NULL )
+    if( index >= o->fileCount )
     {
-        DisplayPrintError( "Out of memory" );
-        
         return NULL;
     }
     
-    name[ 11 ] = 0;
-    
-    memset( name, ' ', 11 );
-    strcpy( fullname, path );
-    
-    file = strrchr( fullname, '/' );
-    
-    if( file == NULL )
-    {
-        file = fullname;
-    }
-    else
-    {
-        file++;
-    }
-    
-    ext = strrchr( fullname, '.' );
-    
-    if( ext != NULL )
-    {
-        ext[ 0 ] = 0;
-        
-        ext++;
-    }
-    
-    __DiskReplaceInvalidCharacters( o, file );
-    
-    if( ext != NULL )
-    {
-        __DiskReplaceInvalidCharacters( o, ext );
-        
-        len = strlen( ext );
-        
-        memcpy( name + 8, ext, ( len > 3 ) ? 3 : len );
-    }
-    
-    len = strlen( file );
-    
-    if( len > 8 )
-    {
-        memcpy( name, file, 6 );
-        
-        name[ 6 ] = '~';
-        name[ 7 ] = '1';
-    }
-    else
-    {
-        memcpy( name, file, len );
-    }
-    
-    free( fullname );
-    
-    if( __DiskUniqueFilename( o, name ) == false )
-    {
-        free( name );
-        
-        return NULL;
-    }
-    
-    return name;
+    return o->filePaths[ index ];
 }

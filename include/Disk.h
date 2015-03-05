@@ -60,6 +60,10 @@ bool DiskAddFile( MutableDiskRef o, const char * file );
 bool DiskWrite( DiskRef o, const char * path );
 
 MutableMBRRef DiskGetMBR( DiskRef o );
+size_t        DiskGetFileCount( DiskRef o );
+const char  * DiskGetFilePathAtIndex( DiskRef o, size_t index );
+const char  * DiskGetFilenameAtIndex( DiskRef o, size_t index );
+size_t        DiskGetFileSizeAtIndex( DiskRef o, size_t index );
 
 #ifdef __cplusplus
 }

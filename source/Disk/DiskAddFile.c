@@ -53,10 +53,23 @@ bool DiskAddFile( MutableDiskRef o, const char * file )
     
     path = malloc( strlen( file ) + 1 );
     
+    if( path == NULL )
+    {
+        DisplayPrintError( "Out of memory" );
+        
+        return false;
+    }
+    
     strcpy( path, file );
     
-    if( path == NULL || __DiskCreateFilename( path, &name ) == false )
+    name = __DiskCreateFilename( o, path );
+    
+    if( name == NULL )
     {
+        DisplayPrintError( "Cannot create a FAT filename for file: %s", file );
+        
+        free( path );
+        
         return false;
     }
     
@@ -83,6 +96,8 @@ bool DiskAddFile( MutableDiskRef o, const char * file )
         free( o->filePaths );
         free( o->filenames );
         free( o->fileSizes );
+        free( path );
+        free( name );
         
         DisplayPrintError( "Out of memory" );
         
@@ -97,7 +112,7 @@ bool DiskAddFile( MutableDiskRef o, const char * file )
         (
             "Adding file #%zu\n"
             "    - Local path: %s\n"
-            "    - FAT name:   %s\n"
+            "    - FAT name:   <%s>\n"
             "    - File size:  %zu bytes\n",
             o->fileCount + 1,
             path,

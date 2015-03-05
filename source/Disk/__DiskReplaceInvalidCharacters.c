@@ -34,89 +34,35 @@
 
 #include "Disk.h"
 #include "__private/Disk.h"
-#include "Display.h"
 
-char * __DiskCreateFilename( DiskRef o, const char * path )
+void __DiskReplaceInvalidCharacters( DiskRef o, char * filename )
 {
-    char * file;
-    char * ext;
-    char * name;
-    char * fullname;
-    size_t len;
+    char c;
     
-    if( o == NULL || path == NULL || strlen( path ) == 0 )
+    if( o == NULL || filename == NULL )
     {
-        return NULL;
+        return;
     }
     
-    name     = malloc( 12 );
-    fullname = malloc( strlen( path ) + 1 );
-    
-    if( name == NULL || fullname == NULL )
+    while( ( c = *( filename++ ) ) )
     {
-        DisplayPrintError( "Out of memory" );
+        if
+        (
+               ( c > 64 && c < 91 ) /* A-Z */
+            || ( c > 47 && c < 58 ) /* 0-9 */
+            || ( c == 95 )          /* _ */
+        )
+        {
+            continue;
+        }
         
-        return NULL;
+        if( c > 96 && c < 123 ) /* a-z */
+        {
+            *( filename - 1 ) = c - 32;
+        }
+        else
+        {
+            *( filename - 1 ) = '_';
+        }
     }
-    
-    name[ 11 ] = 0;
-    
-    memset( name, ' ', 11 );
-    strcpy( fullname, path );
-    
-    file = strrchr( fullname, '/' );
-    
-    if( file == NULL )
-    {
-        file = fullname;
-    }
-    else
-    {
-        file++;
-    }
-    
-    ext = strrchr( fullname, '.' );
-    
-    if( ext != NULL )
-    {
-        ext[ 0 ] = 0;
-        
-        ext++;
-    }
-    
-    __DiskReplaceInvalidCharacters( o, file );
-    
-    if( ext != NULL )
-    {
-        __DiskReplaceInvalidCharacters( o, ext );
-        
-        len = strlen( ext );
-        
-        memcpy( name + 8, ext, ( len > 3 ) ? 3 : len );
-    }
-    
-    len = strlen( file );
-    
-    if( len > 8 )
-    {
-        memcpy( name, file, 6 );
-        
-        name[ 6 ] = '~';
-        name[ 7 ] = '1';
-    }
-    else
-    {
-        memcpy( name, file, len );
-    }
-    
-    free( fullname );
-    
-    if( __DiskUniqueFilename( o, name ) == false )
-    {
-        free( name );
-        
-        return NULL;
-    }
-    
-    return name;
 }

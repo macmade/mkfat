@@ -60,7 +60,9 @@ struct __Disk
 #pragma clang diagnostic pop
 #endif
 
-bool __DiskCreateFilename( const char * path, char ** name );
+char * __DiskCreateFilename( DiskRef o, const char * path );
+void   __DiskReplaceInvalidCharacters( DiskRef o, char * filename );
+bool   __DiskUniqueFilename( DiskRef o, char * filename );
 
 #ifdef __cplusplus
 }
