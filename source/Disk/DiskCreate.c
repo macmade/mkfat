@@ -50,11 +50,85 @@ MutableDiskRef DiskCreate( DiskFormat format )
     
     if( format == DiskFormatFAT12 )
     {
+        MBRSetSectorSize(                   mbr, 512 );
+        MBRSetSectorsPerCluster(            mbr, 0 );
+        MBRSetReservedSectorCount(          mbr, 1 );
+        MBRSetNumberOfFATs(                 mbr, 2 );
+        MBRSetNumberOfRootDirectoryEntries( mbr, 512 );
+        MBRSetTotalSectors(                 mbr, 0 );
+        MBRSetMediumIdentifier(             mbr, 0xF8 );
+        MBRSetSectorsPerFAT(                mbr, 0 );
+        MBRSetSectorsPerTrack(              mbr, 32 );
+        MBRSetNumberOfSides(                mbr, 16 );
+        MBRSetExtendedBootRecordSignature(  mbr, 0x29 );
+        MBRSetVolumeIDNumber(               mbr, ( uint32_t )time( NULL ) );
+        MBRSetVolumeLabel(                  mbr, "UNTITLED" );
+        MBRSetFileSystemType(               mbr, "FAT12" );
+        MBRSetCreatingSystemIdentifier(     mbr, "MKFAT" );
+        MBRSetBootable(                     mbr, false );
         
+        /*
+        - OEM ID:                  BSD  4.4
+        - Bytes per sector:        512
+        - Sectors per cluster:     1
+        - Reserved sectors:        1
+        - Number of FATs:          2
+        - Max root dir entries:    512
+        - Total sectors:           2879
+        - Media descriptor:        0xF8
+        - Sectors per FAT:         9
+        - Sectors per track:       32
+        - Heads per cylinder:      16
+        - Hidden sectors:          1
+        - LBA sectors:             0
+        - Drive number:            0x80
+        - Extended boot signature: 0x29
+        - Volume serial number:    0x821519FA
+        - Volume label:            TEST       
+        - File system:             FAT12   
+        - Bootable:                yes
+        */
     }
     else
     {
+        MBRSetSectorSize(                   mbr, 512 );
+        MBRSetSectorsPerCluster(            mbr, 0 );
+        MBRSetReservedSectorCount(          mbr, 1 );
+        MBRSetNumberOfFATs(                 mbr, 2 );
+        MBRSetNumberOfRootDirectoryEntries( mbr, 512 );
+        MBRSetTotalSectors(                 mbr, 0 );
+        MBRSetMediumIdentifier(             mbr, 0xF8 );
+        MBRSetSectorsPerFAT(                mbr, 0 );
+        MBRSetSectorsPerTrack(              mbr, 32 );
+        MBRSetNumberOfSides(                mbr, 16 );
+        MBRSetExtendedBootRecordSignature(  mbr, 0x29 );
+        MBRSetVolumeIDNumber(               mbr, ( uint32_t )time( NULL ) );
+        MBRSetVolumeLabel(                  mbr, "UNTITLED" );
+        MBRSetFileSystemType(               mbr, "FAT16" );
+        MBRSetCreatingSystemIdentifier(     mbr, "MKFAT" );
+        MBRSetBootable(                     mbr, false );
         
+        /*
+        - OEM ID:                  BSD  4.4
+        - Bytes per sector:        512
+        - Sectors per cluster:     2
+        - Reserved sectors:        1
+        - Number of FATs:          2
+        - Max root dir entries:    512
+        - Total sectors:           28799
+        - Media descriptor:        0xF8
+        - Sectors per FAT:         56
+        - Sectors per track:       32
+        - Heads per cylinder:      16
+        - Hidden sectors:          1
+        - LBA sectors:             0
+        - Drive number:            0x80
+        - Extended boot signature: 0x29
+        - Volume serial number:    0x42F419FA
+        - Volume label:            TEST       
+        - File system:             FAT16   
+        - Bootable:                yes
+        */
     }
     
     o = calloc( sizeof( struct __Disk ), 1 );

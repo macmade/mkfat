@@ -40,7 +40,7 @@
 
 bool __ArgumentsAddFile( struct __Arguments * o, const char * file )
 {
-    if( o == NULL )
+    if( o == NULL || file == NULL || strlen( file ) == 0 )
     {
         return false;
     }
@@ -58,6 +58,9 @@ bool __ArgumentsAddFile( struct __Arguments * o, const char * file )
     
     if( o->inputFiles == NULL )
     {
+        o->inputFileCount      = 0;
+        o->inputFileBufferSize = 0;
+        
         DisplayPrintError( "Out of memory" );
         
         return false;

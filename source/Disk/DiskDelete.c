@@ -37,11 +37,22 @@
 
 void DiskDelete( MutableDiskRef o )
 {
+    size_t i;
+    
     if( o == NULL )
     {
         return;
     }
     
+    for( i = 0; i < o->fileCount; i++ )
+    {
+        free( o->filePaths[ i ] );
+        free( o->filenames[ i ] );
+    }
+    
     MBRDelete( o->mbr );
+    free( o->filePaths );
+    free( o->filenames );
+    free( o->fileSizes );
     free( o );
 }

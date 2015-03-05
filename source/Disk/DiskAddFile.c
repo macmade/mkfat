@@ -34,15 +34,83 @@
 
 #include "Disk.h"
 #include "__private/Disk.h"
+#include "Display.h"
+#include "IO.h"
+#include "Arguments.h"
+
+#define DISK_FILE_BUFFER_SIZE  10
 
 bool DiskAddFile( MutableDiskRef o, const char * file )
 {
-    if( o == NULL )
+    char * path;
+    char * name;
+    size_t size;
+    
+    if( o == NULL || file == NULL || strlen( file ) == 0 )
     {
         return false;
     }
     
-    ( void )file;
+    path = malloc( strlen( file ) + 1 );
+    
+    strcpy( path, file );
+    
+    if( path == NULL || __DiskCreateFilename( path, &name ) == false )
+    {
+        return false;
+    }
+    
+    if( o->fileBufferSize == 0 )
+    {
+        o->filePaths       = calloc( sizeof( const char * ), DISK_FILE_BUFFER_SIZE );
+        o->filenames       = calloc( sizeof( const char * ), DISK_FILE_BUFFER_SIZE );
+        o->fileSizes       = calloc( sizeof( size_t       ), DISK_FILE_BUFFER_SIZE );
+        o->fileBufferSize  = DISK_FILE_BUFFER_SIZE;
+    }
+    else if( o->fileCount == o->fileBufferSize )
+    {
+        o->filePaths       = realloc( o->filePaths, sizeof( const char * ) * ( o->fileBufferSize + DISK_FILE_BUFFER_SIZE ) );
+        o->filenames       = realloc( o->filenames, sizeof( const char * ) * ( o->fileBufferSize + DISK_FILE_BUFFER_SIZE ) );
+        o->fileSizes       = realloc( o->fileSizes, sizeof( size_t       ) * ( o->fileBufferSize + DISK_FILE_BUFFER_SIZE ) );
+        o->fileBufferSize += DISK_FILE_BUFFER_SIZE;
+    }
+    
+    if( o->filePaths == NULL || o->filenames == NULL || o->fileSizes == NULL )
+    {
+        o->fileCount      = 0;
+        o->fileBufferSize = 0;
+        
+        free( o->filePaths );
+        free( o->filenames );
+        free( o->fileSizes );
+        
+        DisplayPrintError( "Out of memory" );
+        
+        return false;
+    }
+    
+    size = IOGetFileSize( path );
+    
+    if( ArgumentsGetVerbose( ArgumentsGetCurrent() ) )
+    {
+        printf
+        (
+            "Adding file #%zu\n"
+            "    - Local path: %s\n"
+            "    - FAT name:   %s\n"
+            "    - File size:  %zu bytes\n",
+            o->fileCount + 1,
+            path,
+            name,
+            size
+        );
+    }
+    
+    o->filePaths[ o->fileCount ] = path;
+    o->filenames[ o->fileCount ] = name;
+    o->fileSizes[ o->fileCount ] = size;
+    
+    o->fileCount++;
     
     return true;
 }

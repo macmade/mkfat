@@ -67,15 +67,16 @@ int main( int argc, char * argv[] )
     
     if
     (
-           strcmp( ArgumentsGetFileSystemType( args ), "FAT12" ) == 0
-        || strcmp( ArgumentsGetFileSystemType( args ), "fat12" ) == 0
+           ArgumentsGetFileSystemType( args )                    == NULL
+        || strcmp( ArgumentsGetFileSystemType( args ), "FAT16" ) == 0
+        || strcmp( ArgumentsGetFileSystemType( args ), "fat16" ) == 0
     )
     {
-        disk = DiskCreate( DiskFormatFAT12 );
+        disk = DiskCreate( DiskFormatFAT16 );
     }
     else
     {
-        disk = DiskCreate( DiskFormatFAT16 );
+        disk = DiskCreate( DiskFormatFAT12 );
     }
     
     if( disk == NULL )
@@ -162,6 +163,11 @@ int main( int argc, char * argv[] )
     else
     {
         MBRSetBootable( mbr, false );
+    }
+    
+    if( ArgumentsGetInputFileCount( args ) )
+    {
+        DisplayPrintHeader( "Adding files:" );
     }
     
     for( i = 0; i < ArgumentsGetInputFileCount( args ); i++ )
