@@ -32,63 +32,15 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT___PRIVATE_MBR_H
-#define MKFAT___PRIVATE_MBR_H
+#include "DirectoryEntry.h"
+#include "__private/DirectoryEntry.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "../MBR.h"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#endif
-
-#pragma pack( 1 )
-struct __MBRData
+DirectoryRef DirectoryEntryGetDirectory( DirectoryEntryRef o )
 {
-    uint8_t     jmp[ 3 ];
-    uint8_t     creatingSystemIdentifier[ 8 ];
-    uint16_t    sectorSize;
-    uint8_t     sectorsPerCluster;
-    uint16_t    reservedSectorCount;
-    uint8_t     numberOfFATs;
-    uint16_t    numberOfRootDirectoryEntries;
-    uint16_t    totalSectors;
-    uint8_t     mediumIdentifier;
-    uint16_t    sectorsPerFAT;
-    uint16_t    sectorsPerTrack;
-    uint16_t    numberOfSides;
-    uint32_t    reserved_0;
-    uint32_t    longTotalSectors;
-    uint8_t     reserved_1;
-    uint8_t     reserved_2;
-    uint8_t     extendedBootRecordSignature;
-    uint32_t    volumeIDNumber;
-    uint8_t     volumeLabel[ 11 ];
-    uint8_t     fileSystemType[ 8 ];
-    uint8_t     bootCode[ 448 ] ;
-    uint16_t    bootSignature;
-};
-#pragma options align=reset
-
-struct __MBR
-{
-    struct __MBRData * mbr;
-    char             * creatingSystemIdentifier;
-    char             * volumeLabel;
-    char             * fileSystemType;
-    DiskRef            disk;
-};
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-
-#ifdef __cplusplus
+    if( o == NULL )
+    {
+        return NULL;
+    }
+    
+    return o->directory;
 }
-#endif
-
-#endif /* MKFAT___PRIVATE_MBR_H */

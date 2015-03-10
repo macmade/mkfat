@@ -39,10 +39,11 @@
 extern "C" {
 #endif
 
-#include "C99.h"
-
 typedef const struct __FAT * FATRef;
 typedef       struct __FAT * MutableFATRef;
+
+#include "C99.h"
+#include "Disk.h"
 
 void FATDelete( MutableFATRef o );
 

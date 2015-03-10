@@ -39,17 +39,18 @@
 extern "C" {
 #endif
 
-#include "C99.h"
-
 typedef const struct __Directory * DirectoryRef;
 typedef       struct __Directory * MutableDirectoryRef;
 
+#include "C99.h"
+#include "Disk.h"
 #include "DirectoryEntry.h"
 
-MutableDirectoryRef DirectoryCreate( size_t entryCount );
+MutableDirectoryRef DirectoryCreate( DiskRef disk, size_t entryCount );
 void                DirectoryDelete( MutableDirectoryRef o );
 
-bool DirectoryWrite( DirectoryRef o, FILE * fp );
+DiskRef DirectoryGetDisk( DirectoryRef o );
+bool    DirectoryWrite( DirectoryRef o, FILE * fp );
 
 size_t                   DirectoryGetEntryCount( DirectoryRef o );
 MutableDirectoryEntryRef DirectoryGetEntryAtIndex( DirectoryRef o, size_t index );

@@ -41,12 +41,23 @@ MutableDiskRef DiskCreate( DiskFormat format )
     struct __Disk * o;
     MutableMBRRef   mbr;
     
-    mbr = MBRCreate();
+    o = calloc( sizeof( struct __Disk ), 1 );
+    
+    if( o == NULL )
+    {
+        DisplayPrintError( "Out of memory" );
+        
+        return NULL;
+    }
+    
+    mbr = MBRCreate( o );
     
     if( mbr == NULL )
     {
         return NULL;
     }
+    
+    o->mbr = mbr;
     
     if( format == DiskFormatFAT12 )
     {
@@ -130,17 +141,6 @@ MutableDiskRef DiskCreate( DiskFormat format )
         - Bootable:                yes
         */
     }
-    
-    o = calloc( sizeof( struct __Disk ), 1 );
-    
-    if( o == NULL )
-    {
-        DisplayPrintError( "Out of memory" );
-        
-        return NULL;
-    }
-    
-    o->mbr = mbr;
     
     return o;
 }

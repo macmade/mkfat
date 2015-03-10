@@ -36,13 +36,18 @@
 #include "__private/MBR.h"
 #include "Display.h"
 
-MutableMBRRef MBRCreate( void )
+MutableMBRRef MBRCreate( DiskRef disk )
 {
     struct __MBR     * o;
     struct __MBRData * mbr;
     char             * creatingSystemIdentifier;
     char             * volumeLabel;
     char             * fileSystemType;
+    
+    if( disk == NULL )
+    {
+        return NULL;
+    }
     
     o                        = calloc( sizeof( struct __MBR                  ),     1 );
     mbr                      = calloc( sizeof( struct __MBRData              ),     1 );
@@ -70,6 +75,7 @@ MutableMBRRef MBRCreate( void )
         return NULL;
     }
     
+    o->disk                     = disk;
     o->mbr                      = mbr;
     o->creatingSystemIdentifier = creatingSystemIdentifier;
     o->volumeLabel              = volumeLabel;

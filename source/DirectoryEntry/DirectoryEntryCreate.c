@@ -36,11 +36,16 @@
 #include "__private/DirectoryEntry.h"
 #include "Display.h"
 
-MutableDirectoryEntryRef DirectoryEntryCreate( void )
+MutableDirectoryEntryRef DirectoryEntryCreate( DirectoryRef directory )
 {
     struct __DirectoryEntry     * o;
     struct __DirectoryEntryData * entry;
     char                        * filename;
+    
+    if( directory == NULL )
+    {
+        return NULL;
+    }
     
     o        = calloc( sizeof( struct __DirectoryEntry ), 1 );
     entry    = calloc( sizeof( struct __DirectoryEntryData ), 1 );
@@ -57,8 +62,9 @@ MutableDirectoryEntryRef DirectoryEntryCreate( void )
         return NULL;
     }
     
-    o->entry    = entry;
-    o->filename = filename;
+    o->directory = directory;
+    o->entry     = entry;
+    o->filename  = filename;
     
     return o;
 }

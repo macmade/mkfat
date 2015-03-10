@@ -50,6 +50,7 @@ struct __Directory
 {
     MutableDirectoryEntryRef * entries;
     size_t                     entryCount;
+    DiskRef                    disk;
 };
 
 #ifdef __clang__

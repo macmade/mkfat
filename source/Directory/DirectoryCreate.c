@@ -36,7 +36,7 @@
 #include "__private/Directory.h"
 #include "Display.h"
 
-MutableDirectoryRef DirectoryCreate( size_t entryCount )
+MutableDirectoryRef DirectoryCreate( DiskRef disk, size_t entryCount )
 {
     struct __Directory       * o;
     MutableDirectoryEntryRef * entries;
@@ -44,7 +44,7 @@ MutableDirectoryRef DirectoryCreate( size_t entryCount )
     size_t                     i;
     size_t                     j;
     
-    if( entryCount == 0 )
+    if( disk == NULL || entryCount == 0 )
     {
         return NULL;
     }
@@ -62,11 +62,12 @@ MutableDirectoryRef DirectoryCreate( size_t entryCount )
         return NULL;
     }
     
+    o->disk    = disk;
     o->entries = entries;
     
     for( i = 0; i < entryCount; i++ )
     {
-        entry = DirectoryEntryCreate();
+        entry = DirectoryEntryCreate( o );
         
         if( entry == NULL )
         {
@@ -74,6 +75,11 @@ MutableDirectoryRef DirectoryCreate( size_t entryCount )
             {
                 DirectoryEntryDelete( o->entries[ j ] );
             }
+            
+            free( entries );
+            free( o );
+            
+            return NULL;
         }
         
         o->entries[ i ] = entry;

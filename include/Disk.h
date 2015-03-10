@@ -39,11 +39,10 @@
 extern "C" {
 #endif
 
-#include "C99.h"
-
 typedef const struct __Disk * DiskRef;
 typedef       struct __Disk * MutableDiskRef;
 
+#include "C99.h"
 #include "MBR.h"
 
 typedef enum

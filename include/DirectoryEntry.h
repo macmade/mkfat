@@ -39,10 +39,11 @@
 extern "C" {
 #endif
 
-#include "C99.h"
-
 typedef const struct __DirectoryEntry * DirectoryEntryRef;
 typedef       struct __DirectoryEntry * MutableDirectoryEntryRef;
+
+#include "C99.h"
+#include "Directory.h"
 
 typedef enum
 {
@@ -56,11 +57,12 @@ typedef enum
 }
 DirectoryEntryAttributes;
 
-MutableDirectoryEntryRef DirectoryEntryCreate( void );
+MutableDirectoryEntryRef DirectoryEntryCreate( DirectoryRef directory );
 void                     DirectoryEntryDelete( MutableDirectoryEntryRef o );
 
-bool DirectoryEntrySetInfoFromLocalFile( DirectoryEntryRef o, const char * path );
-bool DirectoryEntryWrite( DirectoryEntryRef o, FILE * fp );
+DirectoryRef DirectoryEntryGetDirectory( DirectoryEntryRef o );
+bool         DirectoryEntrySetInfoFromLocalFile( DirectoryEntryRef o, const char * path );
+bool         DirectoryEntryWrite( DirectoryEntryRef o, FILE * fp );
 
 const char * DirectoryEntryGetFilename( DirectoryEntryRef o );
 uint8_t      DirectoryEntryGetAttributes( DirectoryEntryRef o );

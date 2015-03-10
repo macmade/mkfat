@@ -68,6 +68,7 @@ struct __DirectoryEntry
 {
     struct __DirectoryEntryData * entry;
     char                        * filename;
+    DirectoryRef                  directory;
 };
 
 #ifdef __clang__

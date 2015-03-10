@@ -39,15 +39,17 @@
 extern "C" {
 #endif
 
-#include "C99.h"
-
 typedef const struct __MBR * MBRRef;
 typedef       struct __MBR * MutableMBRRef;
 
-MutableMBRRef   MBRCreate( void );
+#include "C99.h"
+#include "Disk.h"
+
+MutableMBRRef   MBRCreate( DiskRef disk );
 void            MBRDelete( MutableMBRRef o );
 
-bool MBRWrite( MBRRef o, FILE * fp );
+DiskRef MBRGetDisk( MBRRef o );
+bool    MBRWrite( MBRRef o, FILE * fp );
 
 uint16_t      MBRGetSectorSize( MBRRef o );
 uint8_t       MBRGetSectorsPerCluster( MBRRef o );
