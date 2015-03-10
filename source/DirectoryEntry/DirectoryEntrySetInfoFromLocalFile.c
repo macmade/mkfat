@@ -34,15 +34,44 @@
 
 #include "DirectoryEntry.h"
 #include "__private/DirectoryEntry.h"
+#include "IO.h"
+#include "Display.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 bool DirectoryEntrySetInfoFromLocalFile( DirectoryEntryRef o, const char * path )
 {
-    if( o == NULL )
+    struct stat info;
+    
+    if( o == NULL || path == NULL || strlen( path ) == 0 )
     {
         return false;
     }
     
-    ( void )path;
+    if( IOFileExists( path ) == false )
+    {
+        DisplayPrintError( "File does not exist: %s", path );
+        
+        return false;
+    }
+    
+    if( stat( path, &info ) != 0 )
+    {
+        DisplayPrintError( "Cannot get info from file: %s", path );
+        
+        return false;
+    }
+    
+    if( S_ISREG( info.st_mode ) == 0 )
+    {
+        DisplayPrintError( "Only regulare files are supported: %s", path );
+        
+        return false;
+    }
+    
+    o->entry->fileLength = ( uint32_t )IOGetFileSize( path );
+    o->entry->attributes = DirectoryEntryAttributeArchive;
     
     return true;
 }
