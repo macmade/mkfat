@@ -42,5 +42,5 @@ void DirectoryEntrySetStartingClusterNumber( DirectoryEntryRef o, uint16_t value
         return;
     }
     
-    ( void )value;
+    o->entry->startingClusterNumber = value;
 }

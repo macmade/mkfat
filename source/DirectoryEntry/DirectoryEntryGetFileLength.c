@@ -42,5 +42,5 @@ uint32_t DirectoryEntryGetFileLength( DirectoryEntryRef o )
         return 0;
     }
     
-    return 0;
+    return o->entry->fileLength;
 }

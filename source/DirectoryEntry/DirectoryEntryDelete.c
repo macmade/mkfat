@@ -42,5 +42,7 @@ void DirectoryEntryDelete( MutableDirectoryEntryRef o )
         return;
     }
     
+    free( o->entry );
+    free( o->filename );
     free( o );
 }

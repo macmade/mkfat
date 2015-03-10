@@ -42,5 +42,5 @@ void DirectoryEntrySetCreationTime( DirectoryEntryRef o, uint16_t value )
         return;
     }
     
-    ( void )value;
+    o->entry->creationTime = value;
 }

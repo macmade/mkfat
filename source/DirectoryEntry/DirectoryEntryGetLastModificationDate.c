@@ -42,5 +42,5 @@ uint16_t DirectoryEntryGetLastModificationDate( DirectoryEntryRef o )
         return 0;
     }
     
-    return 0;
+    return o->entry->lastModificationDate;
 }

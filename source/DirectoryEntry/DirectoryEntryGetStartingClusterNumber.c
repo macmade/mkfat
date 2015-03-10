@@ -42,5 +42,5 @@ uint16_t DirectoryEntryGetStartingClusterNumber( DirectoryEntryRef o )
         return 0;
     }
     
-    return 0;
+    return o->entry->startingClusterNumber;
 }

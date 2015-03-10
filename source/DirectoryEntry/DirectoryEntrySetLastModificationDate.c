@@ -42,5 +42,5 @@ void DirectoryEntrySetLastModificationDate( DirectoryEntryRef o, uint16_t value 
         return;
     }
     
-    ( void )value;
+    o->entry->lastModificationDate = value;
 }

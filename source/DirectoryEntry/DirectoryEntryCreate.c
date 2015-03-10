@@ -34,8 +34,31 @@
 
 #include "DirectoryEntry.h"
 #include "__private/DirectoryEntry.h"
+#include "Display.h"
 
 MutableDirectoryEntryRef DirectoryEntryCreate( void )
 {
-    return NULL;
+    struct __DirectoryEntry     * o;
+    struct __DirectoryEntryData * entry;
+    char                        * filename;
+    
+    o        = calloc( sizeof( struct __DirectoryEntry ), 1 );
+    entry    = calloc( sizeof( struct __DirectoryEntryData ), 1 );
+    filename = calloc( 1, 12 );
+    
+    if( o == NULL || entry == NULL || filename == NULL )
+    {
+        free( o );
+        free( entry );
+        free( filename );
+        
+        DisplayPrintError( "Out of memory" );
+        
+        return NULL;
+    }
+    
+    o->entry    = entry;
+    o->filename = filename;
+    
+    return o;
 }

@@ -42,5 +42,5 @@ uint8_t DirectoryEntryGetAttributes( DirectoryEntryRef o )
         return 0;
     }
     
-    return 0;
+    return o->entry->attributes;
 }

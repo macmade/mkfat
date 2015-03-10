@@ -42,5 +42,5 @@ void DirectoryEntrySetFileLength( DirectoryEntryRef o, uint32_t value )
         return;
     }
     
-    ( void )value;
+    o->entry->fileLength = value;
 }

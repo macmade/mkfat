@@ -42,5 +42,5 @@ void DirectoryEntrySetAttributes( DirectoryEntryRef o, uint8_t value )
         return;
     }
     
-    ( void )value;
+    o->entry->attributes = value;
 }

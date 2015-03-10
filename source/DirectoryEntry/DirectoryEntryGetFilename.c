@@ -42,5 +42,5 @@ const char * DirectoryEntryGetFilename( DirectoryEntryRef o )
         return NULL;
     }
     
-    return NULL;
+    return o->filename;
 }

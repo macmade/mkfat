@@ -46,9 +46,28 @@ extern "C" {
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
+#pragma pack( 1 )
+struct __DirectoryEntryData
+{
+    char     filename[ 11 ];
+    uint8_t  attributes;
+    uint8_t  reserved_0;
+    uint8_t  reserved_1;
+    uint16_t creationTime;
+    uint16_t creationDate;
+    uint16_t lastAccessDate;
+    uint16_t reserved_2;
+    uint16_t lastModificationTime;
+    uint16_t lastModificationDate;
+    uint16_t startingClusterNumber;
+    uint32_t fileLength;
+};
+#pragma options align=reset
+
 struct __DirectoryEntry
 {
-    int __xxx;
+    struct __DirectoryEntryData * entry;
+    char                        * filename;
 };
 
 #ifdef __clang__

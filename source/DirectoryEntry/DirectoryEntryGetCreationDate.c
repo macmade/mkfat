@@ -42,5 +42,5 @@ uint16_t DirectoryEntryGetCreationDate( DirectoryEntryRef o )
         return 0;
     }
     
-    return 0;
+    return o->entry->creationDate;
 }

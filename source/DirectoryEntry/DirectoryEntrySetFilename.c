@@ -37,10 +37,23 @@
 
 void DirectoryEntrySetFilename( DirectoryEntryRef o, const char * value )
 {
+    size_t len;
+    
     if( o == NULL )
     {
         return;
     }
     
-    ( void )value;
+    memset( o->filename,        0, 11 );
+    memset( o->entry->filename, 0, 11 );
+    
+    if( value == NULL )
+    {
+        return;
+    }
+    
+    len = strlen( value );
+    
+    memcpy( o->filename,        value, ( len < 11 ) ? len : 11 );
+    memcpy( o->entry->filename, value, ( len < 11 ) ? len : 11 );
 }
