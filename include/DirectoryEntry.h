@@ -44,7 +44,43 @@ extern "C" {
 typedef const struct __DirectoryEntry * DirectoryEntryRef;
 typedef       struct __DirectoryEntry * MutableDirectoryEntryRef;
 
-void DirectoryEntryDelete( MutableDirectoryEntryRef o );
+typedef enum
+{
+    DirectoryEntryAttributeReadOnly     = 0x01,
+    DirectoryEntryAttributeHidden       = 0x02,
+    DirectoryEntryAttributeSystem       = 0x04,
+    DirectoryEntryAttributeVolumeLabel  = 0x08,
+    DirectoryEntryAttributeDirectory    = 0x10,
+    DirectoryEntryAttributeArchive      = 0x20,
+    DirectoryEntryAttributeLFN          = 0x0F
+}
+DirectoryEntryAttributes;
+
+MutableDirectoryEntryRef DirectoryEntryCreate( void );
+void                     DirectoryEntryDelete( MutableDirectoryEntryRef o );
+
+bool DirectoryEntrySetInfoFromLocalFile( DirectoryEntryRef o, const char * path );
+bool DirectoryEntryWrite( DirectoryEntryRef o, FILE * fp );
+
+const char * DirectoryEntryGetFilename( DirectoryEntryRef o );
+uint8_t      DirectoryEntryGetAttributes( DirectoryEntryRef o );
+uint16_t     DirectoryEntryGetCreationTime( DirectoryEntryRef o );
+uint16_t     DirectoryEntryGetCreationDate( DirectoryEntryRef o );
+uint16_t     DirectoryEntryGetLastAccessDate( DirectoryEntryRef o );
+uint16_t     DirectoryEntryGetLastModificationTime( DirectoryEntryRef o );
+uint16_t     DirectoryEntryGetLastModificationDate( DirectoryEntryRef o );
+uint16_t     DirectoryEntryGetStartingClusterNumber( DirectoryEntryRef o );
+uint32_t     DirectoryEntryGetFileLength( DirectoryEntryRef o );
+
+void DirectoryEntrySetFilename( DirectoryEntryRef o, const char * value );
+void DirectoryEntrySetAttributes( DirectoryEntryRef o, uint8_t value );
+void DirectoryEntrySetCreationTime( DirectoryEntryRef o, uint16_t value );
+void DirectoryEntrySetCreationDate( DirectoryEntryRef o, uint16_t value );
+void DirectoryEntrySetLastAccessDate( DirectoryEntryRef o, uint16_t value );
+void DirectoryEntrySetLastModificationTime( DirectoryEntryRef o, uint16_t value );
+void DirectoryEntrySetLastModificationDate( DirectoryEntryRef o, uint16_t value );
+void DirectoryEntrySetStartingClusterNumber( DirectoryEntryRef o, uint16_t value );
+void DirectoryEntrySetFileLength( DirectoryEntryRef o, uint32_t value );
 
 #ifdef __cplusplus
 }
