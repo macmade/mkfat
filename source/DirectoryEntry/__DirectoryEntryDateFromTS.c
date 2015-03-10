@@ -32,54 +32,38 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT___PRIVATE_DIRCTORY_ENTRY_H
-#define MKFAT___PRIVATE_DIRCTORY_ENTRY_H
+#include "DirectoryEntry.h"
+#include "__private/DirectoryEntry.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "../DirectoryEntry.h"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#endif
-
-#pragma pack( 1 )
-struct __DirectoryEntryData
+uint16_t __DirectoryEntryDateFromTS( time_t ts )
 {
-    char     filename[ 11 ];
-    uint8_t  attributes;
-    uint8_t  reserved_0;
-    uint8_t  reserved_1;
-    uint16_t creationTime;
-    uint16_t creationDate;
-    uint16_t lastAccessDate;
-    uint16_t reserved_2;
-    uint16_t lastModificationTime;
-    uint16_t lastModificationDate;
-    uint16_t startingClusterNumber;
-    uint32_t fileLength;
-};
-#pragma options align=reset
-
-struct __DirectoryEntry
-{
-    struct __DirectoryEntryData * entry;
-    char                        * filename;
-    DirectoryRef                  directory;
-};
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-
-uint16_t __DirectoryEntryTimeFromTS( time_t ts );
-uint16_t __DirectoryEntryDateFromTS( time_t ts );
-
-#ifdef __cplusplus
+    struct tm * tm;
+    int         y;
+    int         m;
+    int         d;
+    int         date;
+    
+    tm = localtime( &ts );
+    
+    y = tm->tm_year;
+    m = tm->tm_mon;
+    d = tm->tm_mday;
+    
+    if( y < 1980 )
+    {
+        y = 0;
+        m = 1;
+        d = 1;
+    }
+    else
+    {
+        m += 1;
+        y -= 1980;
+    }
+    
+    date =   ( y << 9 )
+         | ( ( m << 5 ) & 0x01FF )
+         | (   d        & 0x001F );
+    
+    return ( uint16_t )date;
 }
-#endif
-
-#endif /* MKFAT___PRIVATE_DIRCTORY_ENTRY_H */

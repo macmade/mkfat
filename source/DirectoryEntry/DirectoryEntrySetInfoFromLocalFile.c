@@ -70,8 +70,13 @@ bool DirectoryEntrySetInfoFromLocalFile( DirectoryEntryRef o, const char * path 
         return false;
     }
     
-    o->entry->fileLength = ( uint32_t )IOGetFileSize( path );
-    o->entry->attributes = DirectoryEntryAttributeArchive;
+    o->entry->fileLength            = ( uint32_t )IOGetFileSize( path );
+    o->entry->attributes            = DirectoryEntryAttributeArchive;
+    o->entry->creationTime          = __DirectoryEntryTimeFromTS( info.st_ctime );
+    o->entry->creationDate          = __DirectoryEntryDateFromTS( info.st_ctime );
+    o->entry->lastAccessDate        = __DirectoryEntryDateFromTS( info.st_atime );
+    o->entry->lastModificationTime  = __DirectoryEntryTimeFromTS( info.st_mtime );
+    o->entry->lastModificationDate  = __DirectoryEntryDateFromTS( info.st_mtime );
     
     return true;
 }
