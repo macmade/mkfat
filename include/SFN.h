@@ -32,36 +32,20 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT___PRIVATE_DISK_H
-#define MKFAT___PRIVATE_DISK_H
+#ifndef MKFAT_SFN_H
+#define MKFAT_SFN_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "../Disk.h"
+#include "C99.h"
+#include "Disk.h"
 
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#endif
-
-struct __Disk
-{
-    MutableMBRRef mbr;
-    char       ** filePaths;
-    char       ** filenames;
-    size_t      * fileSizes;
-    size_t        fileCount;
-    size_t        fileBufferSize;
-};
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
+char * SFNCreate( DiskRef disk, const char * path );
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* MKFAT___PRIVATE_DISK_H */
+#endif /* MKFAT_SFN_H */

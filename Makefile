@@ -46,7 +46,8 @@ FILES   := $(call MAKE_FUNC_C_FILES,$(DIR_SRC))                 \
            $(call MAKE_FUNC_C_FILES,$(DIR_SRC)Display/)         \
            $(call MAKE_FUNC_C_FILES,$(DIR_SRC)FAT/)             \
            $(call MAKE_FUNC_C_FILES,$(DIR_SRC)IO/)              \
-           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)MBR/)
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)MBR/)             \
+           $(call MAKE_FUNC_C_FILES,$(DIR_SRC)SFN/)
 
 all: build
 	

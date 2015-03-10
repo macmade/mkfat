@@ -32,72 +32,37 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "Disk.h"
-#include "__private/Disk.h"
+#include "SFN.h"
+#include "__private/SFN.h"
 
-bool __DiskUniqueFilename( DiskRef o, char * filename )
+void __SFNReplaceInvalidCharacters( DiskRef o, char * filename )
 {
-    size_t i;
-    size_t n;
-    size_t c;
-    char   no[ 2 ];
-    char * tilde;
+    char c;
     
-    if( o == NULL || filename == NULL || strlen( filename ) == 0 )
+    if( o == NULL || filename == NULL )
     {
-        return false;
+        return;
     }
     
-    c     = 0;
-    tilde = strchr( filename, '~' );
-    
-    if( tilde != NULL )
+    while( ( c = *( filename++ ) ) )
     {
-        no[ 0 ] = tilde[ 1 ];
-        no[ 1 ] = 0;
-        c       = ( size_t )strtoul( no, NULL, 0 );
-    }
-    
-    find:
-    
-    n = DiskGetFileCount( o );
-    
-    for( i = 0; i < n; i++ )
-    {
-        if( strcmp( filename, DiskGetFilenameAtIndex( o, i ) ) == 0 )
+        if
+        (
+               ( c > 64 && c < 91 ) /* A-Z */
+            || ( c > 47 && c < 58 ) /* 0-9 */
+            || ( c == 95 )          /* _ */
+        )
         {
-            if( tilde == NULL )
-            {
-                for( i = 0; i < 7; i++ )
-                {
-                    if( filename[ i ] == ' ' )
-                    {
-                        tilde             = filename + i;
-                        filename[ i     ] = '~';
-                        filename[ i + 1 ] = '1';
-                        
-                        goto find;
-                    }
-                }
-                
-                tilde         = filename + 6;
-                filename[ 6 ] = '~';
-                filename[ 7 ] = '1';
-                
-                goto find;
-            }
-            else if( c < 10 )
-            {
-                tilde[ 1 ] = ( char )( ++c + 48 );
-            }
-            else
-            {
-                return false;
-            }
-            
-            goto find;
+            continue;
+        }
+        
+        if( c > 96 && c < 123 ) /* a-z */
+        {
+            *( filename - 1 ) = c - 32;
+        }
+        else
+        {
+            *( filename - 1 ) = '_';
         }
     }
-    
-    return true;
 }

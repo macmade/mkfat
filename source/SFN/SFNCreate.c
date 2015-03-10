@@ -32,36 +32,91 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT___PRIVATE_DISK_H
-#define MKFAT___PRIVATE_DISK_H
+#include "SFN.h"
+#include "__private/SFN.h"
+#include "Display.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "../Disk.h"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpadded"
-#endif
-
-struct __Disk
+char * SFNCreate( DiskRef o, const char * path )
 {
-    MutableMBRRef mbr;
-    char       ** filePaths;
-    char       ** filenames;
-    size_t      * fileSizes;
-    size_t        fileCount;
-    size_t        fileBufferSize;
-};
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-
-#ifdef __cplusplus
+    char * file;
+    char * ext;
+    char * name;
+    char * fullname;
+    size_t len;
+    
+    if( o == NULL || path == NULL || strlen( path ) == 0 )
+    {
+        return NULL;
+    }
+    
+    name     = malloc( 12 );
+    fullname = malloc( strlen( path ) + 1 );
+    
+    if( name == NULL || fullname == NULL )
+    {
+        DisplayPrintError( "Out of memory" );
+        
+        return NULL;
+    }
+    
+    name[ 11 ] = 0;
+    
+    memset( name, ' ', 11 );
+    strcpy( fullname, path );
+    
+    file = strrchr( fullname, '/' );
+    
+    if( file == NULL )
+    {
+        file = fullname;
+    }
+    else
+    {
+        file++;
+    }
+    
+    ext = strrchr( fullname, '.' );
+    
+    if( ext != NULL )
+    {
+        ext[ 0 ] = 0;
+        
+        ext++;
+    }
+    
+    __SFNReplaceInvalidCharacters( o, file );
+    
+    if( ext != NULL )
+    {
+        __SFNReplaceInvalidCharacters( o, ext );
+        
+        len = strlen( ext );
+        
+        memcpy( name + 8, ext, ( len > 3 ) ? 3 : len );
+    }
+    
+    len = strlen( file );
+    
+    if( len > 8 )
+    {
+        memcpy( name, file, 6 );
+        
+        name[ 6 ] = '~';
+        name[ 7 ] = '1';
+    }
+    else
+    {
+        memcpy( name, file, len );
+    }
+    
+    free( fullname );
+    
+    if( __SFNUniqueFilename( o, name ) == false )
+    {
+        free( name );
+        
+        return NULL;
+    }
+    
+    return name;
 }
-#endif
-
-#endif /* MKFAT___PRIVATE_DISK_H */

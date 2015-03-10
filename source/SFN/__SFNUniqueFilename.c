@@ -32,91 +32,72 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "Disk.h"
-#include "__private/Disk.h"
-#include "Display.h"
+#include "SFN.h"
+#include "__private/SFN.h"
 
-char * __DiskCreateFilename( DiskRef o, const char * path )
+bool __SFNUniqueFilename( DiskRef o, char * filename )
 {
-    char * file;
-    char * ext;
-    char * name;
-    char * fullname;
-    size_t len;
+    size_t i;
+    size_t n;
+    size_t c;
+    char   no[ 2 ];
+    char * tilde;
     
-    if( o == NULL || path == NULL || strlen( path ) == 0 )
+    if( o == NULL || filename == NULL || strlen( filename ) == 0 )
     {
-        return NULL;
+        return false;
     }
     
-    name     = malloc( 12 );
-    fullname = malloc( strlen( path ) + 1 );
+    c     = 0;
+    tilde = strchr( filename, '~' );
     
-    if( name == NULL || fullname == NULL )
+    if( tilde != NULL )
     {
-        DisplayPrintError( "Out of memory" );
-        
-        return NULL;
+        no[ 0 ] = tilde[ 1 ];
+        no[ 1 ] = 0;
+        c       = ( size_t )strtoul( no, NULL, 0 );
     }
     
-    name[ 11 ] = 0;
+    find:
     
-    memset( name, ' ', 11 );
-    strcpy( fullname, path );
+    n = DiskGetFileCount( o );
     
-    file = strrchr( fullname, '/' );
-    
-    if( file == NULL )
+    for( i = 0; i < n; i++ )
     {
-        file = fullname;
-    }
-    else
-    {
-        file++;
-    }
-    
-    ext = strrchr( fullname, '.' );
-    
-    if( ext != NULL )
-    {
-        ext[ 0 ] = 0;
-        
-        ext++;
-    }
-    
-    __DiskReplaceInvalidCharacters( o, file );
-    
-    if( ext != NULL )
-    {
-        __DiskReplaceInvalidCharacters( o, ext );
-        
-        len = strlen( ext );
-        
-        memcpy( name + 8, ext, ( len > 3 ) ? 3 : len );
-    }
-    
-    len = strlen( file );
-    
-    if( len > 8 )
-    {
-        memcpy( name, file, 6 );
-        
-        name[ 6 ] = '~';
-        name[ 7 ] = '1';
-    }
-    else
-    {
-        memcpy( name, file, len );
+        if( strcmp( filename, DiskGetFilenameAtIndex( o, i ) ) == 0 )
+        {
+            if( tilde == NULL )
+            {
+                for( i = 0; i < 7; i++ )
+                {
+                    if( filename[ i ] == ' ' )
+                    {
+                        tilde             = filename + i;
+                        filename[ i     ] = '~';
+                        filename[ i + 1 ] = '1';
+                        
+                        goto find;
+                    }
+                }
+                
+                tilde         = filename + 6;
+                filename[ 6 ] = '~';
+                filename[ 7 ] = '1';
+                
+                goto find;
+            }
+            else if( c < 10 )
+            {
+                tilde[ 1 ] = ( char )( ++c + 48 );
+            }
+            else
+            {
+                return false;
+            }
+            
+            goto find;
+        }
     }
     
-    free( fullname );
-    
-    if( __DiskUniqueFilename( o, name ) == false )
-    {
-        free( name );
-        
-        return NULL;
-    }
-    
-    return name;
+    return true;
 }

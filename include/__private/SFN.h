@@ -32,37 +32,20 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#include "Disk.h"
-#include "__private/Disk.h"
+#ifndef MKFAT___PRIVATE_SFN_H
+#define MKFAT___PRIVATE_SFN_H
 
-void __DiskReplaceInvalidCharacters( DiskRef o, char * filename )
-{
-    char c;
-    
-    if( o == NULL || filename == NULL )
-    {
-        return;
-    }
-    
-    while( ( c = *( filename++ ) ) )
-    {
-        if
-        (
-               ( c > 64 && c < 91 ) /* A-Z */
-            || ( c > 47 && c < 58 ) /* 0-9 */
-            || ( c == 95 )          /* _ */
-        )
-        {
-            continue;
-        }
-        
-        if( c > 96 && c < 123 ) /* a-z */
-        {
-            *( filename - 1 ) = c - 32;
-        }
-        else
-        {
-            *( filename - 1 ) = '_';
-        }
-    }
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "../SFN.h"
+
+void __SFNReplaceInvalidCharacters( DiskRef o, char * filename );
+bool __SFNUniqueFilename( DiskRef o, char * filename );
+
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* MKFAT___PRIVATE_SFN_H */

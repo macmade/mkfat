@@ -37,6 +37,7 @@
 #include "Display.h"
 #include "IO.h"
 #include "Arguments.h"
+#include "SFN.h"
 
 #define DISK_FILE_BUFFER_SIZE  10
 
@@ -62,7 +63,7 @@ bool DiskAddFile( MutableDiskRef o, const char * file )
     
     strcpy( path, file );
     
-    name = __DiskCreateFilename( o, path );
+    name = SFNCreate( o, path );
     
     if( name == NULL )
     {
