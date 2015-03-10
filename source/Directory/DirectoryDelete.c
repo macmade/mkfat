@@ -37,10 +37,18 @@
 
 void DirectoryDelete( MutableDirectoryRef o )
 {
+    size_t i;
+    
     if( o == NULL )
     {
         return;
     }
     
+    for( i = 0; i < o->entryCount; i++ )
+    {
+        DirectoryEntryDelete( o->entries[ i ] );
+    }
+    
+    free( o->entries );
     free( o );
 }

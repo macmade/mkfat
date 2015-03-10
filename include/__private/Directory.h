@@ -48,7 +48,8 @@ extern "C" {
 
 struct __Directory
 {
-    int __xxx;
+    MutableDirectoryEntryRef * entries;
+    size_t                     entryCount;
 };
 
 #ifdef __clang__

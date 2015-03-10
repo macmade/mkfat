@@ -32,30 +32,20 @@
  * @copyright       (c) 2015, Jean-David Gadina - www.xs-labs.com
  */
 
-#ifndef MKFAT_DIR_H
-#define MKFAT_DIR_H
+#include "Directory.h"
+#include "__private/Directory.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "C99.h"
-
-typedef const struct __Directory * DirectoryRef;
-typedef       struct __Directory * MutableDirectoryRef;
-
-#include "DirectoryEntry.h"
-
-MutableDirectoryRef DirectoryCreate( size_t entryCount );
-void                DirectoryDelete( MutableDirectoryRef o );
-
-bool DirectoryWrite( DirectoryRef o, FILE * fp );
-
-size_t                   DirectoryGetEntryCount( DirectoryRef o );
-MutableDirectoryEntryRef DirectoryGetEntryAtIndex( DirectoryRef o, size_t index );
-
-#ifdef __cplusplus
+MutableDirectoryEntryRef DirectoryGetEntryAtIndex( DirectoryRef o, size_t index )
+{
+    if( o == NULL )
+    {
+        return NULL;
+    }
+    
+    if( index >= o->entryCount )
+    {
+        return NULL;
+    }
+    
+    return o->entries[ index ];
 }
-#endif
-
-#endif /* MKFAT_DIR_H */
