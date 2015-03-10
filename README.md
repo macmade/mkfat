@@ -16,8 +16,10 @@ Supported formats are FAT-12 and FAT-16.
 Usage
 -----
 
-    Usage: mkfat [OPTIONS] -o DISK [FILES...]
-    
+    Usage:
+        
+        mkfat [options] -o <disk> [<file>...]
+        
     Options:
     
         --ss           uint        Sector size

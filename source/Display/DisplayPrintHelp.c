@@ -38,7 +38,9 @@ void DisplayPrintHelp( void )
 {
     printf
     (
-        "Usage: mkfat [OPTIONS] -o DISK [FILES...]\n"
+        "Usage:\n"
+        "\n"
+        "    mkfat [options] -o <disk> [<file>...]\n"
         "\n"
         "Options:\n"
         "\n"
